@@ -3,409 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>생리학 전 범위(1장~11장) 문제지 & 랜덤 출제</title>
+    <title>생리학 전 범위(1장~11장) 문제지 & 랜덤·복습</title>
     <style>
-        body {
-            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
-            line-height: 1.6;
-            background-color: #f4f6f9;
-            color: #333;
-            max-width: 940px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #1a365d;
-            margin-bottom: 15px;
-        }
-
-        /* 랜덤 출제 컨트롤 패널 */
-        .random-panel {
-            background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
-            color: white;
-            padding: 18px 22px;
-            border-radius: 10px;
-            margin-bottom: 18px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-        }
-        .random-panel-title {
-            font-size: 17px;
-            font-weight: bold;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .quick-random-btns {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .quick-btn {
-            background-color: #f6ad55;
-            color: #1a202c;
-            border: none;
-            padding: 7px 14px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .quick-btn:hover {
-            background-color: #ed8936;
-        }
-        .quick-btn.all-scope {
-            background-color: #48bb78;
-            color: white;
-        }
-        .quick-btn.all-scope:hover {
-            background-color: #38a169;
-        }
-        .random-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-            background: rgba(255,255,255,0.12);
-            padding: 12px 15px;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-        .random-options select {
-            padding: 6px 10px;
-            border-radius: 5px;
-            border: none;
-            font-size: 13.5px;
-            font-weight: bold;
-            color: #2d3748;
-        }
-        .start-random-btn {
-            background-color: #fff;
-            color: #1a365d;
-            border: none;
-            padding: 7px 16px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 13.5px;
-            cursor: pointer;
-            margin-left: auto;
-        }
-        .start-random-btn:hover {
-            background-color: #e2e8f0;
-        }
-
-        /* 상단 장별 페이지 탭 */
-        .page-nav {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 20px;
-            background: #fff;
-            padding: 12px;
-            border-radius: 10px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-        }
-        .nav-btn {
-            background-color: #e2e8f0;
-            color: #2d3748;
-            border: none;
-            padding: 8px 13px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 13px;
-            transition: all 0.2s;
-        }
-        .nav-btn:hover {
-            background-color: #cbd5e0;
-        }
-        .nav-btn.active {
-            background-color: #2b6cb0;
-            color: white;
-        }
-        .nav-btn.random-tab {
-            background-color: #ed8936;
-            color: white;
-            display: none;
-        }
-        .nav-btn.random-tab.active {
-            background-color: #c05621;
-        }
-
-        /* 각 장 페이지 컨테이너 */
-        .chapter-page {
-            display: none;
-            background: #fff;
-            border-radius: 10px;
-            padding: 28px 30px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            min-height: 550px;
-        }
-        .chapter-page.active {
-            display: block;
-        }
-        .chapter-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            border-bottom: 2px solid #2b6cb0;
-            padding-bottom: 12px;
-            margin-bottom: 22px;
-        }
-        .chapter-header h2 {
-            color: #2b6cb0;
-            margin: 0;
-            font-size: 22px;
-        }
-        .header-btns {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-        .question {
-            margin-bottom: 18px;
-            padding-bottom: 14px;
-            border-bottom: 1px dashed #e2e8f0;
-        }
-        .question:last-child {
-            border-bottom: none;
-        }
-        .q-badge {
-            display: inline-block;
-            background-color: #ebf8ff;
-            color: #2b6cb0;
-            border: 1px solid #bee3f8;
-            font-size: 12px;
-            font-weight: bold;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-bottom: 6px;
-        }
-        .q-text {
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        input[type="text"] {
-            width: 100%;
-            max-width: 480px;
-            padding: 7px 11px;
-            border: 1px solid #cbd5e0;
-            border-radius: 5px;
-            font-size: 14px;
-            margin-right: 6px;
-            margin-bottom: 5px;
-        }
-        .sub-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-            gap: 10px;
-            margin-top: 8px;
-            margin-bottom: 10px;
-        }
-        .sub-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 14px;
-        }
-        .sub-item input[type="text"] {
-            width: 140px;
-            margin: 0;
-        }
-        .sub-list {
-            margin: 8px 0 10px 0;
-        }
-        .sub-list-row {
-            margin-bottom: 6px;
-            font-size: 14px;
-        }
-        .box-bogi {
-            background-color: #edf2f7;
-            border: 1px solid #cbd5e0;
-            border-radius: 6px;
-            padding: 10px 14px;
-            margin: 10px 0;
-            font-size: 14px;
-        }
-        .box-bogi strong {
-            display: block;
-            margin-bottom: 4px;
-            color: #2d3748;
-        }
-        .diagram-desc {
-            background-color: #ebf8ff;
-            border-left: 4px solid #3182ce;
-            padding: 10px 14px;
-            margin: 10px 0;
-            font-size: 13.5px;
-            color: #2c5282;
-        }
-        button.check-btn {
-            background-color: #3182ce;
-            color: white;
-            border: none;
-            padding: 7px 13px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-        button.check-btn:hover {
-            background-color: #2b6cb0;
-        }
-        .shuffle-btn {
-            background-color: #805ad5;
-            color: white;
-            border: none;
-            padding: 7px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: bold;
-        }
-        .shuffle-btn:hover {
-            background-color: #6b46c1;
-        }
-        .restore-btn {
-            background-color: #4a5568;
-            color: white;
-            border: none;
-            padding: 7px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-        .page-all-btn {
-            background-color: #2d3748;
-            color: white;
-            border: none;
-            padding: 7px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-        .reset-btn {
-            background-color: #718096;
-            color: white;
-            border: none;
-            padding: 7px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-        .answer {
-            display: none;
-            margin-top: 8px;
-            padding: 9px 12px;
-            background-color: #f0fff4;
-            border-left: 4px solid #38a169;
-            color: #22543d;
-            font-weight: bold;
-            font-size: 14px;
-            border-radius: 0 5px 5px 0;
-        }
-
-        /* 카드형(1문제씩 풀기) 컨트롤러 */
-        .card-Mode-controls {
-            display: none;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #edf2f7;
-            padding: 12px 18px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-        .card-nav-btn {
-            background-color: #2b6cb0;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .card-nav-btn:disabled {
-            background-color: #cbd5e0;
-            cursor: not-allowed;
-        }
-
-        .bottom-pagination {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            padding-bottom: 30px;
-        }
-        .page-move-btn {
-            background-color: #2b6cb0;
-            color: white;
-            border: none;
-            padding: 10px 22px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .page-move-btn:disabled {
-            background-color: #cbd5e0;
-            cursor: not-allowed;
-        }
-        .page-indicator {
-            font-weight: bold;
-            color: #4a5568;
-            font-size: 15px;
-        }
-        @media print {
-            .random-panel, .page-nav, .bottom-pagination, button {
-                display: none !important;
-            }
-            .chapter-page.active {
-                display: block !important;
-                box-shadow: none;
-                border: 1px solid #ccc;
-            }
-        }
+        body { font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; line-height: 1.6; background: #f4f6f9; color: #333; max-width: 940px; margin: 0 auto; padding: 20px; }
+        h1 { text-align: center; color: #1a365d; margin-bottom: 15px; }
+        .random-panel { background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%); color: #fff; padding: 18px 22px; border-radius: 10px; margin-bottom: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.12); }
+        .random-panel-title { font-size: 16px; font-weight: bold; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .quick-random-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+        .quick-btn { background: #f6ad55; color: #1a202c; border: none; padding: 7px 12px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; }
+        .quick-btn.all-scope { background: #48bb78; color: #fff; }
+        .quick-btn.review-btn { background: #ecc94b; color: #1a202c; }
+        .quick-btn.clear-btn { background: #e53e3e; color: #fff; }
+        .random-options { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; background: rgba(255,255,255,0.12); padding: 12px 15px; border-radius: 8px; font-size: 14px; }
+        .random-options select { padding: 6px 10px; border-radius: 5px; border: none; font-size: 13.5px; font-weight: bold; color: #2d3748; }
+        .start-random-btn { background: #fff; color: #1a365d; border: none; padding: 7px 16px; border-radius: 5px; font-weight: bold; font-size: 13.5px; cursor: pointer; margin-left: auto; }
+        .page-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; background: #fff; padding: 12px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+        .nav-btn { background: #e2e8f0; color: #2d3748; border: none; padding: 8px 13px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; }
+        .nav-btn.active { background: #2b6cb0; color: #fff; }
+        .nav-btn.random-tab { background: #ed8936; color: #fff; display: none; }
+        .nav-btn.random-tab.active { background: #c05621; }
+        .chapter-page { background: #fff; border-radius: 10px; padding: 28px 30px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); min-height: 500px; }
+        .chapter-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-bottom: 2px solid #2b6cb0; padding-bottom: 12px; margin-bottom: 22px; }
+        .chapter-header h2 { color: #2b6cb0; margin: 0; font-size: 22px; }
+        .header-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+        .question { margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px dashed #e2e8f0; }
+        .question.in-review { background: #fffff0; border-left: 4px solid #ecc94b; padding-left: 12px; border-radius: 4px; }
+        .q-badge { display: inline-block; background: #ebf8ff; color: #2b6cb0; border: 1px solid #bee3f8; font-size: 12px; font-weight: bold; padding: 2px 8px; border-radius: 4px; margin-bottom: 6px; }
+        .q-text { font-weight: bold; margin-bottom: 8px; }
+        input[type="text"] { width: 100%; max-width: 460px; padding: 7px 11px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 14px; margin-right: 6px; margin-bottom: 5px; }
+        .sub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 8px 0 10px 0; }
+        .sub-item { display: flex; align-items: center; gap: 6px; font-size: 13.5px; }
+        .sub-item input[type="text"] { width: 130px; margin: 0; }
+        .box-bogi { background: #edf2f7; border: 1px solid #cbd5e0; border-radius: 6px; padding: 10px 14px; margin: 8px 0; font-size: 13.5px; }
+        .diagram-desc { background: #ebf8ff; border-left: 4px solid #3182ce; padding: 10px 14px; margin: 8px 0; font-size: 13.5px; color: #2c5282; }
+        .btn { border: none; padding: 7px 12px; border-radius: 5px; cursor: pointer; font-size: 13px; font-weight: bold; color: #fff; }
+        .check-btn { background: #3182ce; }
+        .shuffle-btn { background: #805ad5; }
+        .restore-btn { background: #4a5568; }
+        .reset-btn { background: #718096; }
+        .page-all-btn { background: #2d3748; }
+        .review-check-btn { background: #fff; color: #d69e2e; border: 1px solid #d69e2e; padding: 6px 11px; border-radius: 5px; cursor: pointer; font-size: 13px; font-weight: bold; margin-left: 4px; }
+        .review-check-btn.active { background: #ecc94b; color: #1a202c; }
+        .answer { display: none; margin-top: 8px; padding: 9px 12px; background: #f0fff4; border-left: 4px solid #38a169; color: #22543d; font-weight: bold; font-size: 14px; border-radius: 0 5px 5px 0; white-space: pre-line; }
+        .bottom-pagination { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-bottom: 30px; }
+        .page-move-btn { background: #2b6cb0; color: #fff; border: none; padding: 10px 22px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; }
+        .page-move-btn:disabled { background: #cbd5e0; cursor: not-allowed; }
+        .page-indicator { font-weight: bold; color: #4a5568; font-size: 15px; }
     </style>
 </head>
 <body>
 
     <h1>생리학 장별 복습 문제지 (1장 ~ 11장)</h1>
 
-    <!-- 🎲 랜덤 문제 출제 패널 -->
+    <!-- 상단 랜덤 & 복습 컨트롤 패널 -->
     <div class="random-panel">
         <div class="random-panel-title">
-            <span>🎲 랜덤 문제 출제기 (장별 / 전 범위)</span>
+            <span>🎲 랜덤 문제 출제 & ⭐ 복습 노트</span>
             <div class="quick-random-btns">
-                <button class="quick-btn" onclick="quickRandomCurrentChapter()">🎯 현재 장 랜덤 출제</button>
-                <button class="quick-btn all-scope" onclick="quickRandomAllChapters()">🌍 모든 문제(전 범위) 랜덤 출제</button>
+                <button class="quick-btn" onclick="quickRandomCurrent()">🎯 현재 장 랜덤</button>
+                <button class="quick-btn all-scope" onclick="quickRandomAll()">🌍 전 범위 랜덤</button>
+                <button class="quick-btn review-btn" id="reviewNoteBtn" onclick="startReviewMode(false)">📌 복습 노트 (0)</button>
+                <button class="quick-btn review-btn" onclick="startReviewMode(true)">🔥 복습 랜덤</button>
+                <button class="quick-btn clear-btn" onclick="clearReviews()">🗑️ 복습 비우기</button>
             </div>
         </div>
         <div class="random-options">
             <label>출제 범위:
-                <select id="randomScopeSelect">
-                    <option value="all">전 범위 (1장 ~ 11장 모든 문제)</option>
-                    <option value="0">1장. 생리학이란</option>
-                    <option value="1">2장. 생명의 화학적 기초</option>
-                    <option value="2">3장. 세포의 구조와 기능</option>
-                    <option value="3">4장. 뼈대계통</option>
-                    <option value="4">5장. 근육계통</option>
-                    <option value="5">6장. 신경계통</option>
-                    <option value="6">7장. 감각기관</option>
-                    <option value="7">8장. 혈액</option>
-                    <option value="8">9장. 심장</option>
-                    <option value="9">10장. 혈관과 순환계통</option>
-                    <option value="10">11장. 림프계통과 면역계통</option>
+                <select id="scopeSelect">
+                    <option value="review">⭐ 내가 체크한 복습 문제만</option>
+                    <option value="all" selected>전 범위 (1장 ~ 11장 모든 문제)</option>
                 </select>
             </label>
             <label>문항 수:
-                <select id="randomCountSelect">
+                <select id="countSelect">
                     <option value="all">해당 범위 전체 문항</option>
                     <option value="5">5문제 뽑기</option>
                     <option value="10">10문제 뽑기</option>
@@ -415,1786 +85,340 @@
                 </select>
             </label>
             <label>풀이 방식:
-                <select id="randomViewModeSelect">
+                <select id="modeSelect">
                     <option value="list">시험지형 (한눈에 보기)</option>
                     <option value="card">카드형 (1문제씩 풀기)</option>
                 </select>
             </label>
-            <button class="start-random-btn" onclick="generateCustomRandomQuiz()">🎲 설정대로 랜덤 출제</button>
+            <button class="start-random-btn" onclick="runCustomRandom(true)">🎲 설정대로 출제</button>
         </div>
     </div>
 
-    <!-- 상단 페이지 네비게이션 -->
-    <div class="page-nav" id="pageNav">
-        <button class="nav-btn active" onclick="goToPage(0)">1장. 생리학이란</button>
-        <button class="nav-btn" onclick="goToPage(1)">2장. 화학적 기초</button>
-        <button class="nav-btn" onclick="goToPage(2)">3장. 세포</button>
-        <button class="nav-btn" onclick="goToPage(3)">4장. 뼈대계통</button>
-        <button class="nav-btn" onclick="goToPage(4)">5장. 근육계통</button>
-        <button class="nav-btn" onclick="goToPage(5)">6장. 신경계통</button>
-        <button class="nav-btn" onclick="goToPage(6)">7장. 감각기관</button>
-        <button class="nav-btn" onclick="goToPage(7)">8장. 혈액</button>
-        <button class="nav-btn" onclick="goToPage(8)">9장. 심장</button>
-        <button class="nav-btn" onclick="goToPage(9)">10장. 혈관·순환</button>
-        <button class="nav-btn" onclick="goToPage(10)">11장. 림프·면역</button>
-        <button class="nav-btn random-tab" id="randomTabBtn" onclick="openRandomPage()">🎲 랜덤 모의고사</button>
-    </div>
+    <!-- 상단 장별 탭 네비게이션 -->
+    <div class="page-nav" id="pageNav"></div>
 
-    <!-- ==================== 1장. 생리학이란 ==================== -->
-    <div class="chapter-page active">
+    <!-- 메인 문제 표시 영역 -->
+    <div class="chapter-page" id="mainPage">
         <div class="chapter-header">
-            <h2>1장. 생리학이란</h2>
+            <h2 id="chapterTitle"></h2>
             <div class="header-btns">
-                <button class="shuffle-btn" onclick="shuffleCurrentChapter()">🔀 이 장 문제 섞기</button>
-                <button class="restore-btn" onclick="restoreCurrentChapterOrder()">↩️ 번호순 정렬</button>
-                <button class="reset-btn" onclick="resetCurrentPage()">입력 지우기</button>
-                <button class="page-all-btn" onclick="toggleCurrentPageAnswers(this)">정답 모두 보기</button>
+                <button class="btn shuffle-btn" onclick="shuffleCurrentView()">🔀 문제 순서 섞기</button>
+                <button class="btn restore-btn" id="restoreOrderBtn" onclick="restoreChapterOrder()">↩️ 번호순 정렬</button>
+                <button class="btn reset-btn" onclick="clearInputs()">입력 지우기</button>
+                <button class="btn page-all-btn" id="toggleAllAnsBtn" onclick="toggleAllAnswers()">정답 모두 보기</button>
             </div>
         </div>
+        <div id="questionsContainer"></div>
 
-        <div class="question">
-            <div class="q-text">1. 인체의 주된 항상성 기전은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 음성 되먹임</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">2. 인체의 항상성과 관련된 음성되먹임의 종류를 쓰시오.</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 정상 혈압의 유지 (수용체, 조절중추, 효과기), 체온 유지, 혈당량 조절 등</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">3. 인체의 항상성과 관련된 양성되먹임의 종류를 쓰시오.</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 출산(분만 시 옥시토신 분비), 혈전형성(혈액응고)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">4. 인체의 4대 기본조직은?</div>
-            <input type="text" placeholder="4가지 조직을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 상피조직, 결합조직, 신경조직, 근육조직</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">5. 인체의 생리현상을 내-외부 환경의 변화에 상관없이 일정하게 유지하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 항상성</div>
+        <!-- 카드형(1문제씩) 네비게이션 -->
+        <div class="bottom-pagination" id="cardPagination" style="display:none; background:#edf2f7; padding:12px 18px; border-radius:8px;">
+            <button class="page-move-btn" id="prevCardBtn" onclick="moveCard(-1)">◀ 이전 문제</button>
+            <span class="page-indicator" id="cardIndicator"></span>
+            <button class="page-move-btn" id="nextCardBtn" onclick="moveCard(1)">다음 문제 ▶</button>
         </div>
     </div>
 
-    <!-- ==================== 2장. 생명의 화학적 기초 ==================== -->
-    <div class="chapter-page">
-        <div class="chapter-header">
-            <h2>2장. 생명의 화학적 기초</h2>
-            <div class="header-btns">
-                <button class="shuffle-btn" onclick="shuffleCurrentChapter()">🔀 이 장 문제 섞기</button>
-                <button class="restore-btn" onclick="restoreCurrentChapterOrder()">↩️ 번호순 정렬</button>
-                <button class="reset-btn" onclick="resetCurrentPage()">입력 지우기</button>
-                <button class="page-all-btn" onclick="toggleCurrentPageAnswers(this)">정답 모두 보기</button>
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">1. 사람의 정상적인 혈액 pH 범위는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: pH 7.35 ~ 7.45</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">2. 인체에 필수적인 주요 유기분자(유기물질)의 4가지는?</div>
-            <input type="text" placeholder="4가지를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 탄수화물, 지질, 단백질, 핵산</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">3. 인체를 구성하는 유기분자 중 아미노산으로 이루어져 있고, 효소, 호르몬, 항체, 헤모글로빈(혈색소)의 주요 성분이 되는 물질은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 단백질</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">4. 단백질의 최소 구성요소는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 아미노산</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">5. 체온을 안정시키고 물질을 수송하며 윤활, 완충, 보호작용을 하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 물</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">6. 용액에 산이나 염기가 더해지더라도 pH의 변화에 저항할 수 있는 물질을 무엇이라 하는가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 완충제</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">7. 신진대사는 물질을 합성하는 동화작용과 무엇으로 구성되는가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 이화작용</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">8. 핵산의 최소 구성단위는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 뉴클레오티드</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">9. 세포작용 중에 사용하는 에너지 공급원은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: ATP</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">10. DNA를 구성하는 염기 종류 4가지는?</div>
-            <input type="text" placeholder="4가지를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: A, T, G, C (아데닌, 티민, 구아닌, 시토신)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">11. 적혈구에서 산소와 결합할 때 필요한 이온은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 철 이온</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">12. 인체의 이온 중에서 혈액응고, 근육수축, 신경전달에 필요한 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 칼슘 이온</div>
-        </div>
-    </div>
-
-    <!-- ==================== 3장. 세포의 구조와 기능 ==================== -->
-    <div class="chapter-page">
-        <div class="chapter-header">
-            <h2>3장. 세포의 구조와 기능</h2>
-            <div class="header-btns">
-                <button class="shuffle-btn" onclick="shuffleCurrentChapter()">🔀 이 장 문제 섞기</button>
-                <button class="restore-btn" onclick="restoreCurrentChapterOrder()">↩️ 번호순 정렬</button>
-                <button class="reset-btn" onclick="resetCurrentPage()">입력 지우기</button>
-                <button class="page-all-btn" onclick="toggleCurrentPageAnswers(this)">정답 모두 보기</button>
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">1. 세포막을 가로지르는 물질의 운반 기전 중에서 ATP를 소모하지 않는 기전은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 촉진확산 (수동운반: 단순확산, 촉진확산, 삼투 등)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">2. 세포막의 이차능동운반에서 동향수송시 나트륨과 함께 이동하는 물질은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 포도당, 아미노산</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">3. 세포막의 주요 구성성분 중에서 가장 많은 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 인지질, 단백질</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">4. 원형질막의 선택적 투과막을 가로지르는 물(용매)의 이동 방법은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 삼투</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">5. 폐포와 모세혈관, 모세혈관과 조직세포에서 이루어지는 산소와 이산화탄소의 기체교환의 원리를 쓰세요.</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 단순확산</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">6. 세포막을 통한 물질이동 중 높은 농도에서 낮은 농도로 용질이 이동하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 확산</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">7. 세포 표면으로 돌출하여 움직임이 가능한 구조로 호흡통로에 존재하여 찌꺼기 제거를 돕거나, 뇌실막세포에 존재하여 뇌척수액의 이동을 돕는 구조는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 섬모</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">8. 정자세포를 이동시키는 기능을 하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 편모</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">9. 세포의 표면을 증가시키고 흡수를 도와주는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 미세융모</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">10. 조직안의 세포수를 일정하게 유지하기 위하여 여분의 세포를 제거하는 것을 무엇이라 하는가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 세포 자멸사 (아폽토시스)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">11. 강력한 가수분해 효소를 가지고 있는 세포내의 작은 구형의 소체로 세포질 내에서 불필요한 물질을 분해하는 세포내소화를 담당하는 세포내 소기관은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 용해소체 (리소좀)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">12. 다음의 세포소기관과 기능은?</div>
-            <div class="sub-list">
-                <div class="sub-list-row">① 리보소체(리보솜): <input type="text" placeholder="기능 입력"></div>
-                <div class="sub-list-row">② 과립세포질그물: <input type="text" placeholder="기능 입력"></div>
-                <div class="sub-list-row">③ 골지복합체: <input type="text" placeholder="기능 입력"></div>
-                <div class="sub-list-row">④ 사립체(미토콘드리아): <input type="text" placeholder="기능 입력"></div>
-                <div class="sub-list-row">⑤ 섬모: <input type="text" placeholder="기능 입력"></div>
-                <div class="sub-list-row">⑥ 편모: <input type="text" placeholder="기능 입력"></div>
-            </div>
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">
-                정답:<br>
-                ① 리보소체(리보솜): 단백질 합성<br>
-                ② 과립세포질그물: 단백질 합성·가공<br>
-                ③ 골지복합체: 단백질·지질의 가공, 분류, 포장 및 분비<br>
-                ④ 사립체(미토콘드리아): 세포호흡을 통한 ATP 생산<br>
-                ⑤ 섬모: 세포표면의 물질 이동<br>
-                ⑥ 편모: 세포자체의 이동(정자)
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">13. 적혈구가 용혈을 일으키는 용액의 상태는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 저장액</div>
-        </div>
-    </div>
-
-    <!-- ==================== 4장. 뼈대계통 ==================== -->
-    <div class="chapter-page">
-        <div class="chapter-header">
-            <h2>4장. 뼈대계통</h2>
-            <div class="header-btns">
-                <button class="shuffle-btn" onclick="shuffleCurrentChapter()">🔀 이 장 문제 섞기</button>
-                <button class="restore-btn" onclick="restoreCurrentChapterOrder()">↩️ 번호순 정렬</button>
-                <button class="reset-btn" onclick="resetCurrentPage()">입력 지우기</button>
-                <button class="page-all-btn" onclick="toggleCurrentPageAnswers(this)">정답 모두 보기</button>
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">1. 뼈의 복구 및 치유 과정에서 섬유와 연골의 망이 형성되는 시기는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 2~3일 뒤 (가골 / 애벌뼈 형성 단계)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">2. 애벌뼈를 구성하는 물질은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 섬유연골</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">3. 골절된 뼈가 복구되는 과정중 뼈모세포가 유입되는 시기는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 애벌뼈의 뼈되기 단계</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">4. 뼈단위(osteon)가 있는 뼈조직의 부위는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 치밀뼈</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">5. 이마뼈와 마루뼈, 빗장뼈의 뼈되기 방법은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 막뼈되기</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">7. 넓적다리뼈와 위팔뼈와 같은 긴뼈의 뼈되기 방법은? (※ 원본 번호 7번)</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 연골속뼈되기</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">8. 뼈의 세포 중에서 혈액으로부터 뼈로 칼슘을 축적시키는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 골모세포 (뼈모세포)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">9. 소장에서 혈액으로 칼슘흡수를 촉진시키는 비타민은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 비타민 D</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">10. 칼슘의 항상성을 유지하는 호르몬중 뼈파괴세포를 자극하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 부갑상샘 호르몬 (PTH)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">11. 칼슘의 항상성을 유지하는 호르몬 중 뼈파괴세포를 억제시키고 콩팥분비를 증가시키는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 칼시토닌</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">12. 긴뼈의 구조이다. 물음에 답하시오.</div>
-            <div class="sub-list">
-                <div class="sub-list-row">1) 뼈의 무게를 증가시키지 않은 채 강도를 높여주는 것은? <input type="text"></div>
-                <div class="sub-list-row">2) 중심관을 가운데두고 동심원상으로 배열된 구조는? <input type="text"></div>
-                <div class="sub-list-row">3) 뼈의 장축을 따라 평행하게 주행하는 관의 명칭은? <input type="text"></div>
-                <div class="sub-list-row">4) 뼈의 재생, 보호, 영양 등을 담당하는 것은? <input type="text"></div>
-            </div>
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">
-                정답: 1) 잔기둥(해면뼈) / 2) 뼈단위 / 3) 중심관 / 4) 뼈막
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== 5장. 근육계통 ==================== -->
-    <div class="chapter-page">
-        <div class="chapter-header">
-            <h2>5장. 근육계통</h2>
-            <div class="header-btns">
-                <button class="shuffle-btn" onclick="shuffleCurrentChapter()">🔀 이 장 문제 섞기</button>
-                <button class="restore-btn" onclick="restoreCurrentChapterOrder()">↩️ 번호순 정렬</button>
-                <button class="reset-btn" onclick="resetCurrentPage()">입력 지우기</button>
-                <button class="page-all-btn" onclick="toggleCurrentPageAnswers(this)">정답 모두 보기</button>
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">1. 뼈대근육을 구성하는 두가지 잔섬유를 쓰세요.</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 액틴, 마이오신 잔섬유</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">2. 가는근육잔세포(가는근육잔섬유)를 구성하는 단백질은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 액틴, 트로포닌, 트로포미오신</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">3. 근육원섬유마디(sarcomere)의 범위는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 하나의 Z원반에서 다음 Z원반까지</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">4. 근육을 구성하는 성분 중 근세포에 해당하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 근섬유</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">5. 뼈대근육이 수축과 이완을 할 때 길이의 변화 없이 일정한 부위는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: A대</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">6. 수축할 때 길이가 감소하는 근육원섬유마디의 부위는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: I대, H대</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">7. 근육세포질그물에서 방출되어 트로포닌과 결합하여 트로포미오신부위를 노출시키는 물질은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 칼슘이온</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">8. 심장근육세포들이 마치 하나의 근육처럼 작용할 수 있도록 하는 구조물을 무엇이라고 하는가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 사이원반</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">9. 뼈대근육 수축과정에서 가로세관 옆에 위치한 근육세포질그물에서 방출되는 물질은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 칼슘이온</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">10. 뼈대근육 수축 시, 직접적인 에너지원으로 사용되는 것은 무엇인지 쓰세요.</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: ATP</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">11. 뼈대근육 수축과정에서 미오신머리가 액틴을 끌어당길 때 소모되는 물질은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: ATP</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">12. 액틴과 미오신머리의 연결다리를 형성할 수 있도록 칼슘과 결합하는 단백질은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 트로포닌</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">13. 자극의 빈도가 너무(매우) 빨라서 근육이 이완되지 못해서 발생하는 근수축의 종류는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 강축</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">14. 근육이 한번의 자극에 대해 반응하며, 시동기, 수축기, 이완기로 이루어지면서 근육섬유가 수축하는 것을 무엇이라고 하는가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 단일수축 (연축)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">15. 근육원섬유마디의 그림이다. 물음에 답하시오.</div>
-            <div class="diagram-desc">
-                <strong>[그림 가이드]</strong><br>
-                • <strong>A</strong>: 지그재그 형태의 경계선 / <strong>B</strong>: 굵은 잔섬유 전체 길이 구간 / <strong>C</strong>: 가는 잔섬유만 있는 밝은 구간<br>
-                • <strong>D</strong>: 굵은 잔섬유만 있는 중앙 구간(H대) / <strong>E</strong>: 중앙 고정선(M선) / <strong>F</strong>: 양쪽 경계선(A) 사이의 한 마디<br>
-                • <strong>G</strong>: 가는 섬유 / <strong>H</strong>: 연결다리가 돌출된 굵은 섬유
-            </div>
-            <div class="sub-grid">
-                <div class="sub-item">1) 액틴 잔섬유 위치: <input type="text"></div>
-                <div class="sub-item">2) 미오신 잔섬유 위치: <input type="text"></div>
-                <div class="sub-item">3) A 밴드 위치: <input type="text"></div>
-                <div class="sub-item">4) I 밴드 위치: <input type="text"></div>
-                <div class="sub-item">5) Z 원반 위치: <input type="text"></div>
-                <div class="sub-item">6) 근육원섬유마디: <input type="text"></div>
-            </div>
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">
-                정답: 1) G / 2) H / 3) B / 4) C / 5) A / 6) F
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">16. 휴식상태와 운동상태에서 ATP운영에 관한 그림이다. 기호에 해당하는 것을 보기에서 고르시오.</div>
-            <div class="diagram-desc">
-                <strong>[그림 가이드]</strong><br>
-                • <strong>휴식 상태</strong>: <strong>( A )</strong> → ATP 생성 → ① ADP + P + 에너지 → <strong>( E )</strong> / ② 남는 에너지로 <strong>( C )</strong> + P → <strong>( D )</strong> 저장<br>
-                • <strong>운동 상태</strong>: <strong>( D )</strong> 분해 및 유산소호흡·<strong>( B )</strong> → ATP 공급 → ADP + P + 에너지 → <strong>( F )</strong>
-            </div>
-            <div class="box-bogi">
-                <strong>[보기]</strong>
-                크레아틴, 크레아틴인산염, 자세유지, 활발한 근육수축, 유산소호흡, 무산소호흡
-            </div>
-            <div class="sub-grid">
-                <div class="sub-item">(A: <input type="text"> )</div>
-                <div class="sub-item">(B: <input type="text"> )</div>
-                <div class="sub-item">(C: <input type="text"> )</div>
-                <div class="sub-item">(D: <input type="text"> )</div>
-                <div class="sub-item">(E: <input type="text"> )</div>
-                <div class="sub-item">(F: <input type="text"> )</div>
-            </div>
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">
-                정답: (A: 유산소호흡) / (B: 무산소호흡) / (C: 크레아틴) / (D: 크레아틴인산염) / (E: 근긴장도, 자세유지) / (F: 활발한 근육수축)
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== 6장. 신경계통 ==================== -->
-    <div class="chapter-page">
-        <div class="chapter-header">
-            <h2>6장. 신경계통</h2>
-            <div class="header-btns">
-                <button class="shuffle-btn" onclick="shuffleCurrentChapter()">🔀 이 장 문제 섞기</button>
-                <button class="restore-btn" onclick="restoreCurrentChapterOrder()">↩️ 번호순 정렬</button>
-                <button class="reset-btn" onclick="resetCurrentPage()">입력 지우기</button>
-                <button class="page-all-btn" onclick="toggleCurrentPageAnswers(this)">정답 모두 보기</button>
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">1. 눈, 코 및 귀의 특수감각기관의 신경세포를 구성하는 신경세포의 유형은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 양극 신경세포 (두극신경세포)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">2. 연접이전종말에서 연접틈새로 방출하는 물질을 통칭해서 무엇이라 하는가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 신경전달물질</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">3. 말이집축삭에서 활동전위의 전달방식은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 도약전도</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">4. 대뇌겉질의 영역을 쓰세요.</div>
-            <div class="sub-grid">
-                <div class="sub-item">① 일반감각영역: <input type="text"></div>
-                <div class="sub-item">② 시각겉질: <input type="text"></div>
-                <div class="sub-item">③ 청각겉질: <input type="text"></div>
-                <div class="sub-item">④ 후각겉질: <input type="text"></div>
-                <div class="sub-item">⑤ 미각영역: <input type="text"></div>
-                <div class="sub-item">⑥ 일차운동영역: <input type="text"></div>
-                <div class="sub-item">⑦ 감각언어영역: <input type="text"></div>
-                <div class="sub-item">⑧ 운동언어영역: <input type="text"></div>
-            </div>
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">
-                정답:<br>
-                ① 일반감각영역 - 두정엽(마루엽) / ② 시각겉질 - 후두엽(뒤통수엽) / ③ 청각겉질 - 측두엽(관자엽)<br>
-                ④ 후각겉질 - 측두엽(관자엽) / ⑤ 미각영역 - 섬엽 / ⑥ 일차운동영역 - 이마엽의 중심앞이랑<br>
-                ⑦ 감각언어영역 - 베르니케 영역 / ⑧ 운동언어영역 - 브로카 영역
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">5. 후각을 제외하고 대뇌로 전달되는 대부분의 오름감각 신경의 중계중추로 작용하는 뇌의 부분의 명칭을 쓰세요.</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 시상</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">6. 몸의 균형과 근육의 긴장도를 유지 및 몸의 미세한 움직임을 조정과 대뇌와 함께 운동학습에 관여하며, 특히 알코올에 의해 기능이 억제되는 뇌 부위의 명칭을 쓰세요.</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 소뇌</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">7. 구토, 침분비, 하품, 딸꾹질, 삼킴 등의 반사중추를 쓰세요.</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 숨뇌</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">8. 장기적인 서술기억, 감성, 감정에 대한 내장반응, 동기부여 및 기분에 영향을 미치며, 후각정보가 가장 중요한 감각정보로 작용하여 배고픔, 갈증과 같은 생존을 위해 냄새자극에 반응하는 이곳은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 둘레계통</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">9. 대뇌겉질과 척수를 연결하는 운동신경의 중계역할을 하고 대뇌겉질에서 계획된 수의운동뿐 아니라 무의식적인 뼈대근육의 움직임을 조절하는 곳을 쓰세요.</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 뇌줄기</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">10. 작업기억, 단기기억, 장기기억을 각각 간단히 설명하세요.</div>
-            <div class="sub-list">
-                <div class="sub-list-row">(1) 작업기억: <input type="text"></div>
-                <div class="sub-list-row">(2) 단기기억: <input type="text"></div>
-                <div class="sub-list-row">(3) 장기기억: <input type="text"></div>
-            </div>
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">
-                정답:<br>
-                (1) 작업기억 - 수초~수분 기억되는 즉시작업 기억<br>
-                (2) 단기기억 - 수분간 기억되는, 이후 강화 과정으로 장기기억되는 기억<br>
-                (3) 장기기억 - 반복학습 등 강화과정을 거쳐 오래 기억되는 기억
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">11. 다음 중 척수의 뒤뿌리를 구성하는 신경은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 감각신경</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">12. 반사활의 구성요소를 쓰세요.</div>
-            <input type="text" placeholder="5가지 구성요소를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 감각수용기, 감각신경, 사이신경, 운동신경, 효과기</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">13. 중간뇌반사, 연수반사, 척수반사의 종류를 각각 쓰세요.</div>
-            <input type="text" placeholder="각 반사의 종류를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 중간뇌반사(동공반사, 시청각반사), 연수(숨뇌)반사(기침, 재채기, 삼킴, 구토반사 등), 척수반사(무릎반사/신장반사, 회피반사, 배뇨·배변반사)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">14. 통증을 수반하는 자극으로부터 팔다리와 몸의 다른 부위를 보호하기 위해 신체를 벗어나게 작용하는 척수반사는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 회피반사</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">15. 강한 정신활동을 하는 동안에 일어나는 뇌파 상태는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 베타파</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">16. 알파, 베타, 델타, 세타파의 뇌파를 각각 설명하세요.</div>
-            <input type="text" placeholder="각 뇌파의 특징을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 알파파(눈을 감고 안정·휴식 상태), 베타파(각성 및 강한 정신활동 상태), 세타파(수면 초기·정서적 스트레스·어린이), 델타파(깊은 수면 상태·유아)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">17. 뇌신경 중에서 부교감신경 성분은? (뇌신경 번호와 이름을 쓰세요.)</div>
-            <input type="text" placeholder="4가지를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: III 눈돌림신경, VII 얼굴신경, IX 혀인두신경, X 미주신경</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">18. 얼굴의 표정근의 움직임을 전달하고, 혀의 뿌리(앞쪽 2/3)에서 맛 정보를 뇌로 전달하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: VII 얼굴신경</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">19. 혀의 뿌리 및 입천장에서의 맛정보를 뇌로 전달하는 신경은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: IX 혀인두신경</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">20. 모든 뇌신경 중에서 가장 굵은 신경으로, 가장 넓은 범위에 일반감각분포를 가지고 있으며, 얼굴의 피부에서 뇌로 감각정보를 전달하는 유일한 뇌신경의 명칭을 쓰세요.</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: V 삼차신경</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">21. 뇌신경을 감각신경, 운동신경, 혼합신경으로 구분하세요. (뇌신경번호와 이름을 쓰세요.)</div>
-            <div class="sub-list">
-                <div class="sub-list-row">(1) 감각신경: <input type="text"></div>
-                <div class="sub-list-row">(2) 운동신경: <input type="text"></div>
-                <div class="sub-list-row">(3) 혼합신경: <input type="text"></div>
-            </div>
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">
-                정답:<br>
-                (1) 감각신경 : I 후각신경, II 시각신경, VIII 내이신경(속귀신경)<br>
-                (2) 운동신경 : III 눈돌림신경, IV 도르래신경, VI 갓돌림신경, XI 더부신경, XII 혀밑신경<br>
-                (3) 혼합신경 : V 삼차신경, VII 얼굴신경, IX 혀인두신경, X 미주신경
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">22. 신경세포를 구조적으로 지지하고, 혈관-뇌장벽을 형성하는데 관여하는 신경아교세포는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 별아교세포</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">23. 중추신경계와 말초신경계에서 축삭을 둘러싸는 말이집을 형성하는 신경아교세포를 각각 쓰세요.</div>
-            <input type="text" placeholder="중추신경계 / 말초신경계 각각 입력">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 중추신경계 - 희소돌기아교세포 / 말초신경계 - 신경집세포(슈반세포)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">24. 세균의 감염으로부터 중추신경계통을 보호하고, 염증에 반응하여 포식세포가 되는 신경아교세포는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 미세아교세포</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">25. 고위운동중추에서 척수까지의 운동신경 중, 숨뇌의 피라미드에서 교차가 되는 척수로는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 피질척수로 (가쪽겉질척수로)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">26. 오름신경로중 신체의 자세와 관련된 정보를 소뇌로 전달하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 척수소뇌로</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">27. 근육의 긴장도, 숙련된 손의 움직임의 속도와 정확도에 관여하는 내림신경경로의 신경교차가 이루어지는 곳은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 숨뇌</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">28. 국소전위가 문턱값에 도달하여 활동전위가 시작되어 탈분극과 재분극이 이루어지도록 하는 물질의 이동을 각각 쓰세요.</div>
-            <input type="text" placeholder="탈분극과 재분극 시 이온 이동을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 탈분극(Na+ 세포 안으로 유입), 재분극(K+ 세포 밖으로 유출)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">29. 활동전위와 관련된 그림이다. 물음에 답하시오.</div>
-            <div class="diagram-desc">
-                <strong>[그림 가이드]</strong><br>
-                • <strong>A</strong>: 전체 전위 변화 파형 / <strong>B</strong>: 전위가 +20mV까지 상승하는 구간 / <strong>C</strong>: 전위가 하강하는 구간<br>
-                • <strong>D</strong>: 점선으로 표시된 역치 수준 / <strong>E</strong>: 역치 도달 전 초기 전위 상승 / <strong>F</strong>: -70mV 아래로 내려간 구간 / <strong>G</strong>: -70mV 기본 수평선
-            </div>
-            <div class="box-bogi">
-                <strong>[보기]</strong>
-                rmp, 과분극, 문턱값, 재분극, 탈분극, 국소전위, 활동전위
-            </div>
-            <div class="sub-grid">
-                <div class="sub-item">(A: <input type="text"> )</div>
-                <div class="sub-item">(B: <input type="text"> )</div>
-                <div class="sub-item">(C: <input type="text"> )</div>
-                <div class="sub-item">(D: <input type="text"> )</div>
-                <div class="sub-item">(E: <input type="text"> )</div>
-                <div class="sub-item">(F: <input type="text"> )</div>
-                <div class="sub-item">(G: <input type="text"> )</div>
-            </div>
-            <div class="sub-list">
-                <div class="sub-list-row">2) Na+ 이온이 유입되는 곳은? <input type="text"></div>
-                <div class="sub-list-row">3) K+ 이온이 유출되는 곳은? <input type="text"></div>
-                <div class="sub-list-row">4) K+ 이온이 과다유출된 곳은? <input type="text"></div>
-            </div>
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">
-                정답:<br>
-                1) (A: 활동전위) / (B: 탈분극) / (C: 재분극) / (D: 문턱값) / (E: 국소전위) / (F: 과분극) / (G: rmp)<br>
-                2) 탈분극(B) / 3) 재분극(C) / 4) 과분극(F)
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">30. 관문통로의 두가지 종류를 쓰시오.</div>
-            <input type="text" placeholder="2가지를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 전압 의존형 통로, 화학작동 통로</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">32. 누출통로에 대한 보상차원으로 세포막의 안정막 전위를 유지하기 위하여 필요한 것은? (※ 원본 번호 32번)</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 나트륨-칼륨 펌프</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">33. 다음의 활동전위 과정을 순서대로 쓰세요: (안정막전위) - ( ① ) - ( ② ) - ( ③ ) - (안정막전위)</div>
-            <input type="text" placeholder="①, ②, ③ 순서대로 입력">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 1. 탈분극, 2. 재분극, 3. 과분극</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">34. 탈분극할 때 세포안으로 확산되어 들어가는 물질은 무엇인가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 나트륨이온 (Na+)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">35. 연접전신경의 연접소포에서 아세틸콜린이 분비되는 부위는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 연접이전종말</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">36. 신경근육이음부에서 아세틸콜린의 재사용을 위해 빠르게 재흡수되도록 하는 물질은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 콜린</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">37. 내분비계통과 더불어 신체 내부 환경의 안정성을 유지하고 내장기관을 조절하는 자율신경계 중 교감신경의 기능을 쓰세요.</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 투쟁반응 (투쟁-도피 반응)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">38. 교감신경 작용의 영향만 받는 곳은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 땀샘과 대부분의 혈관</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">39. 교감신경의 신경절이전 신경세포가 시작되는 곳은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: T1 ~ L2 (첫째 가슴신경 ~ 둘째 허리신경)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">40. 부교감신경(원본 인쇄: 교감신경)의 신경절이전 신경세포가 시작되는 곳은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 부교감신경 기준 - 뇌줄기 및 엉치척수(S2~S4) / 교감신경 기준 - T1~L2</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">41. 척수의 가로면과 관련된 그림이다. 기호에 해당하는 것을 보기에서 고르시오.</div>
-            <div class="diagram-desc">
-                <strong>[그림 가이드]</strong><br>
-                • 등쪽 경로: <strong>( A )</strong>, 볼록한 팽대부 <strong>( B )</strong>, 감각섬유 <strong>( C )</strong> / 합쳐진 신경줄기 <strong>( D )</strong><br>
-                • 회색질 내부 연결 신경: <strong>( E )</strong> / 배쪽 경로: <strong>( F )</strong>, 가쪽뿔에서 나오는 섬유 <strong>( G )</strong>, 앞뿔에서 나오는 섬유 <strong>( H )</strong>
-            </div>
-            <div class="box-bogi">
-                <strong>[보기]</strong>
-                뒤뿌리신경절, 뒤뿌리, 감각신경, 앞뿌리, 자율신경, 몸운동신경, 사이신경, 척수신경
-            </div>
-            <div class="sub-grid">
-                <div class="sub-item">(A: <input type="text"> )</div>
-                <div class="sub-item">(B: <input type="text"> )</div>
-                <div class="sub-item">(C: <input type="text"> )</div>
-                <div class="sub-item">(D: <input type="text"> )</div>
-                <div class="sub-item">(E: <input type="text"> )</div>
-                <div class="sub-item">(F: <input type="text"> )</div>
-                <div class="sub-item">(G: <input type="text"> )</div>
-                <div class="sub-item">(H: <input type="text"> )</div>
-            </div>
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">
-                정답: (A: 뒤뿌리) / (B: 뒤뿌리신경절) / (C: 감각신경) / (D: 척수신경) / (E: 사이신경) / (F: 앞뿌리) / (G: 자율신경) / (H: 몸운동신경)
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== 7장. 감각기관 ==================== -->
-    <div class="chapter-page">
-        <div class="chapter-header">
-            <h2>7장. 감각기관</h2>
-            <div class="header-btns">
-                <button class="shuffle-btn" onclick="shuffleCurrentChapter()">🔀 이 장 문제 섞기</button>
-                <button class="restore-btn" onclick="restoreCurrentChapterOrder()">↩️ 번호순 정렬</button>
-                <button class="reset-btn" onclick="resetCurrentPage()">입력 지우기</button>
-                <button class="page-all-btn" onclick="toggleCurrentPageAnswers(this)">정답 모두 보기</button>
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">1. 인체의 특수감각을 4가지로 분류하여 쓰시오.</div>
-            <input type="text" placeholder="4가지를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 후각, 미각, 청각, 시각</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">2. 혀의 미각정보를 뇌로 전달하는데 관여하는 신경을 모두 쓰세요.</div>
-            <input type="text" placeholder="3가지를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: VII 얼굴신경, IX 혀인두신경, X 미주신경</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">3. 청각장애의 종류를 크게 두가지로 분류하고, 각각 결함의 원인도 함께 쓰세요.</div>
-            <input type="text" placeholder="2가지 종류와 원인을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">
-                정답:<br>
-                • 전도성 난청: 망치뼈와 모루뼈를 함께 잡는 인대 파괴·결합 등 소리의 기계적 전달 결함<br>
-                • 감각신경성 난청: 나선기관 또는 신경경로의 결함
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">4. 털세포가 있는 팽대능선을 가지고 있으며, 회전감각을 감지하여 동적평형에 관여하는 구조는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 반고리뼈관</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">5. 청각과 평형감각을 대뇌겉질로 전달시켜주는 신경은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: VIII 내이신경</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">6. 평형감각중 정적평형과 동적평형을 담당하는 곳을 각각 쓰시오.</div>
-            <input type="text" placeholder="정적평형 / 동적평형 각각 입력">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 정적: 타원주머니, 둥근주머니 / 동적: 반고리뼈관</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">7. 청각을 받아들이는 곳 중 바닥막과 덮개막, 털세포로 구성되어 있는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 나선기관</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">8. 청각수용기인 달팽이관이 존재하는 Skull의 부위는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 측두골 (관자뼈)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">9. 황반의 중앙에 위치하여 눈이 사물을 직접 볼 때 빛이 대부분 집중되고, 오직 원뿔세포만으로 이루어져 있는 망막의 부위는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 중심오목</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">10. 안구가 팽창되어 있게 유지하고, 빛을 굴절시키며, 수정체와 망막에 영양물질을 공급하는 역할을 하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 방수 (안구방수)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">11. 혈관과 색소세포의 분포가 풍부하여 주변조직에 영양물질을 공급하며, 혈관과 멜라닌색소로 인해 검은색으로 보이는 안구의 혈관층에 존재하는 부위는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 맥락막</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">12. 황반의 바로 안쪽에 있는 하얀 지점으로 혈관이 안구 내부로 들어오고, 시각신경이 빠져나가는 지점으로 광수용기가 없어, 빛에 반응하지 못하여 맹점이라고도 불리는 지점은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 시각신경원반</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">13. 안구를 3개의 층으로 나누어 각 층별로 존재하는 구조물을 쓰세요.</div>
-            <input type="text" placeholder="3개의 층을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 안구섬유층(각막, 공막), 포도막/안구혈관층(맥락막, 섬모체, 홍채), 안구신경층(망막)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">14. 밤소경증(야맹증)은 어떤 비타민이 부족시 발생되는가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 비타민 A</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">15. 안구혈관층의 한 부분으로 수정체의 두께를 조절하고 무혈관구조인 각막과 수정체에 산소와 양분을 공급하는 안구방수를 생성하는 곳은 어디인지 쓰세요.</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 모양체 (섬모체)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">16. 눈꺼풀의 안쪽 면과 안구의 앞쪽 면을 덮고 있는 투명하고 얇은 점액성의 막으로, 안구의 표면을 부드럽게 하는데 도움이 되는 물질이 분비되는 이곳은 어디인가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 결막</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">17. 안구에서 빛이 통과하는 순서는?</div>
-            <input type="text" placeholder="순서대로 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 각막 → 안구방수 → 동공 → 수정체 → 유리체 → 망막</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">18. 안구로 들어오는 대부분의 빛을 집중시키는 기능을 하는 구조물은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 각막 (및 수정체)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">19. 눈의 부속구조물에 해당하는 구조물을 쓰세요.</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 눈썹, 눈꺼풀, 결막, 눈물기관, 안구근육</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">20. 시각과 청각 반사가 이루어지는 위둔덕과 아래둔덕이 위치하는 뇌의 부분은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 중간뇌</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">21. 시각반사에 관여하는 중간뇌 부분은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 위둔덕</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">22. 막대세포의 막에 있는 물질 중에서 레티날과 옵신이 결합하여 형성된 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 로돕신</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">23. 청각경로에 관한 그림이다. 기호에 해당하는 것을 보기에서 고르시오(중복 가능).</div>
-            <div class="box-bogi">
-                <strong>[보기]</strong>
-                안뜰창, 등자뼈, 바깥림프, 속림프, 달팽이창, 안뜰계단, 고실계단, 나선기관, 달팽이관, 달팽이신경, 안뜰창, 모루뼈
-            </div>
-            <div class="sub-grid">
-                <div class="sub-item">(A: <input type="text"> )</div>
-                <div class="sub-item">(B: <input type="text"> )</div>
-                <div class="sub-item">(C: <input type="text"> )</div>
-                <div class="sub-item">(D: <input type="text"> )</div>
-                <div class="sub-item">(E: <input type="text"> )</div>
-                <div class="sub-item">(F: <input type="text"> )</div>
-                <div class="sub-item">(G: <input type="text"> )</div>
-                <div class="sub-item">(H: <input type="text"> )</div>
-                <div class="sub-item">(②: <input type="text"> )</div>
-                <div class="sub-item">(④: <input type="text"> )</div>
-                <div class="sub-item">(⑥: <input type="text"> )</div>
-            </div>
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">
-                정답:<br>
-                (A: 안뜰창) / (B: 모루뼈) / (C: 달팽이창) / (D: 달팽이신경) / (E: 안뜰계단) / (F: 고실계단 또는 달팽이관)<br>
-                (G: 속림프) / (H: 나선기관) / (②: 등자뼈) / (④: 바깥림프) / (⑥: 고실계단)
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">24. 근방추, 골지힘줄기관에 위치하여 근육과 관절의 움직임을 감지하는 수용기는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 고유수용기</div>
-        </div>
-    </div>
-
-    <!-- ==================== 8장. 혈액 ==================== -->
-    <div class="chapter-page">
-        <div class="chapter-header">
-            <h2>8장. 혈액</h2>
-            <div class="header-btns">
-                <button class="shuffle-btn" onclick="shuffleCurrentChapter()">🔀 이 장 문제 섞기</button>
-                <button class="restore-btn" onclick="restoreCurrentChapterOrder()">↩️ 번호순 정렬</button>
-                <button class="reset-btn" onclick="resetCurrentPage()">입력 지우기</button>
-                <button class="page-all-btn" onclick="toggleCurrentPageAnswers(this)">정답 모두 보기</button>
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">1. 백혈구 중에서 히스타민 분비, 염증반응 및 헤파린을 분비하여 피덩이형성예방에 관여하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 호염기구</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">2. 백혈구 중에서 알레르기, 천식반응 및 기생충의 파괴에 관여하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 호산구</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">3. 혈장단백질 3종류를 쓰시오.</div>
-            <input type="text" placeholder="3종류를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 알부민, 글로불린, 섬유소원</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">4. 혈장단백질 중 가장 많은 비율을 차지하면서 혈액의 삼투압에 기여하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 알부민</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">5. 항체 중에서 가장 많은 비율을 차지하면서 Rh신생아용혈증에 관여하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: IgG</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">6. 수명이 끝난 적혈구의 헤모글로빈은 쪼개져 (A)와 (B)로 분해되고, (A)는 다시 (C)와 (D)로 분해되어 (B)와는 (D)재사용되고 (C)는 전환되어 (E)으로 분비된다. A, B, C, D, E를 쓰세요.</div>
-            <input type="text" placeholder="A, B, C, D, E를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: A: 헴, B: 글로빈, C: 빌리루빈, D: 철, E: 담즙</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">7. 혈액의 고형성분을 3종류 쓰시오.</div>
-            <input type="text" placeholder="3종류를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 적혈구, 백혈구, 혈소판</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">8. 총혈액량에서 적혈구가 차지하는 비율을 무엇이라 하는가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 적혈구용적률</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">9. 온혈구수(CBC) 혈액의 분석방법에서 CBC의 구성은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 적혈구수, 헤모글로빈 측정, 적혈구용적률, 백혈구수</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">10. 혈액에서 이산화탄소 운반의 70%의 비율로 가장 많이 이용되는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 중탄산 이온</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">11. 적혈구생산에 관련된 그림이다. 기호에 해당하는 것을 보기에서 고르시오(중복 가능).</div>
-            <div class="diagram-desc">
-                <strong>[그림 가이드]</strong><br>
-                혈액 내 산소 <strong>( A )</strong> → 콩팥(Kidney)에서 <strong>( B )</strong> 분비 → 적색골수에서 적혈구 생산 증가 → 혈액 내 산소 <strong>( C )</strong>
-            </div>
-            <div class="box-bogi">
-                <strong>[보기]</strong>
-                산소감소, 산소증가, 적혈구형성인자
-            </div>
-            <div class="sub-grid">
-                <div class="sub-item">(A: <input type="text"> )</div>
-                <div class="sub-item">(B: <input type="text"> )</div>
-                <div class="sub-item">(C: <input type="text"> )</div>
-            </div>
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: (A: 산소감소) / (B: 적혈구형성인자) / (C: 산소증가)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">12. 섬유소를 서서히 파괴시키는 물질로, 피덩이를 용해하고 혈액 흐름을 회복시켜주는 섬유소용해물질은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 플라스민</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">13. 혈액의 손실방지 기작 중에서 혈관벽 안의 민무늬근육의 수축 작용으로 작은 혈관을 폐쇄시키는 기전은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 혈관연축</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">14. 혈액응고 과정에서 섬유소원(Fibrinogen)을 섬유소(Fibrin)로 전환시켜주는 물질이 무엇인가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 트롬빈</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">15. 적혈구의 표면에는 B형 항원을, 혈장에는 항A항체를 갖고 있는 사람의 혈액형은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: B형</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">16. 엄마가 Rh음성이고, 태아가 Rh양성인 경우, 엄마의 Rh항체가 태반을 통하여 태아에게로 이동하여 태아의 적혈구의 용해와 응고를 일으키는 것을 무엇이라 하는가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 태아의 용혈병, 태아적혈모구증</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">17. 혈액의 산소 수치가 낮은 것에 대응하여 적혈구생성인자를 생산하여 적색골수에서의 적혈구의 생산을 자극하는 기관은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 신장 (콩팥)</div>
-        </div>
-    </div>
-
-    <!-- ==================== 9장. 심장 ==================== -->
-    <div class="chapter-page">
-        <div class="chapter-header">
-            <h2>9장. 심장</h2>
-            <div class="header-btns">
-                <button class="shuffle-btn" onclick="shuffleCurrentChapter()">🔀 이 장 문제 섞기</button>
-                <button class="restore-btn" onclick="restoreCurrentChapterOrder()">↩️ 번호순 정렬</button>
-                <button class="reset-btn" onclick="resetCurrentPage()">입력 지우기</button>
-                <button class="page-all-btn" onclick="toggleCurrentPageAnswers(this)">정답 모두 보기</button>
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">1. 심장조절의 중추는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 숨뇌</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">2. 심장길잡이 역할을 하여 심장의 수축을 시작하게 하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 굴심방결절</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">3. 심장전도계통을 쓰세요.</div>
-            <input type="text" placeholder="순서대로 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 굴심방결절 → 심방전도 → 방실결절 → 방실다발 → 오른·왼 다발갈래 → 심장내막하가지</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">4. 심전도 5종류 전기파를 쓰세요.</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: P, Q, R, S, T파</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">5. 정상심전도 T파가 일어날 때 심장의 상태에 해당하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 심실재분극</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">6. 정상심전도 QRS복합파가 일어날 때 심장의 상태는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 심실 탈분극</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">7. 심장의 제1심음이 날 때 닫히는 판막과 이때의 심전도파는?</div>
-            <input type="text" placeholder="판막과 심전도파를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 방실판막, QRS 복합파 직후, 심실수축 시작 무렵</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">8. 심장의 활동전위 중 불응기를 길게 만들어주는 역할을 하는 구간은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 고조기</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">9. 심장근육의 활동전위 중 칼슘통로가 지속적으로 열려있어 재분극을 늦추는 시기는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 고조기</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">10. 심장근육이 뼈대근육과 다르게 고조기를 형성하여 긴 불응기가 지속되는 이유는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 심장근육의 강축(지속적 수축)을 방지하고 심실에 혈액이 다시 채워질 이완 시간을 확보하기 위해</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">11. 심장박출량은?</div>
-            <input type="text" placeholder="정의 및 공식을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 1분당 심장이 수축할 때 뿜어지는 혈액량 [심장박출량 = 심박수 × 일회박출량]</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">12. 복귀정맥혈에 따라 심장의 전부하가 달라져 심장박출량이 달라지는데, 이러한 전부하와 일회박출량 사이의 연관성을 설명한 법칙은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: Starling 법칙</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">13. 자율신경 중에서 일회박출량과 심장박동수를 증가시키는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 교감신경</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">14. 심장자체가 지니고 있는 심장기능 조절기전 중에서 심실이완이 완료되었을 때 심실벽에 가해진 긴장도를 무엇이라 하는가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 전부하</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">15. 심장의 외재적 조절요인 중에서 압력수용기가 있는 곳은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 대동맥과 속목동맥</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">16. 심장의 외재적 조절을 정리한 그림이다. 기호에 해당하는 것을 보기에서 고르시오(중복가능).</div>
-            <div class="box-bogi">
-                <strong>[보기]</strong>
-                대동맥, 목동맥토리, 속목동맥, 숨뇌, E와 NE, 부신속질, 교감신경, 부교감신경, 굴심방결절, 감각신경
-            </div>
-            <div class="sub-grid">
-                <div class="sub-item">(①: <input type="text"> )</div>
-                <div class="sub-item">(②: <input type="text"> )</div>
-                <div class="sub-item">(③: <input type="text"> )</div>
-                <div class="sub-item">(④: <input type="text"> )</div>
-                <div class="sub-item">(A: <input type="text"> )</div>
-                <div class="sub-item">(B: <input type="text"> )</div>
-                <div class="sub-item">(C: <input type="text"> )</div>
-                <div class="sub-item">(D: <input type="text"> )</div>
-                <div class="sub-item">(E: <input type="text"> )</div>
-                <div class="sub-item">(F: <input type="text"> )</div>
-                <div class="sub-item">(G: <input type="text"> )</div>
-            </div>
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">
-                정답:<br>
-                ① 감각신경 / ② 부교감신경 / ③ 교감신경 / ④ 교감신경<br>
-                A: 속목동맥 / B: 목동맥토리 / C: 대동맥 / D: 굴심방결절 / E: 숨뇌 / F: 부신속질 / G: E와 NE
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== 10장. 혈관과 순환계통 ==================== -->
-    <div class="chapter-page">
-        <div class="chapter-header">
-            <h2>10장. 혈관과 순환계통</h2>
-            <div class="header-btns">
-                <button class="shuffle-btn" onclick="shuffleCurrentChapter()">🔀 이 장 문제 섞기</button>
-                <button class="restore-btn" onclick="restoreCurrentChapterOrder()">↩️ 번호순 정렬</button>
-                <button class="reset-btn" onclick="resetCurrentPage()">입력 지우기</button>
-                <button class="page-all-btn" onclick="toggleCurrentPageAnswers(this)">정답 모두 보기</button>
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">1. 동맥압 조절 과정에서 압력수용기와 화학수용기가 존재하는 혈관 2곳은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 목동맥팽대, 대동맥활</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">2. 심장과 혈관에 대한 교감신경을 증가시키는 자극이 부신속질에 대한 교감신경을 자극할 때, 부신속질에서 분비되는 호르몬은? (정답2개)</div>
-            <input type="text" placeholder="2가지를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 에피네프린, 노르에피네프린</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">3. 혈관과 심장의 교감신경의 자극을 증가시키는 신호에 의해 나타나는 현상은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: ① 심장박동수, 일회박출량 증가 / ② 피부와 장기의 혈관수축 / ③ 혈압증가</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">4. 높아진 혈압에 반응하여 심장에서 분비가 증가하는 호르몬은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: ANH, ANP</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">5. 동맥압을 조절할 때 혈압이 감소하면 신장에서 분비하는 호르몬은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 레닌</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">6. 호르몬에 의한 혈압조절 기전의 과정 중에서 안지오텐신II의 역할 2가지를 쓰세요.</div>
-            <input type="text" placeholder="2가지를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 혈관수축, 알도스테론 분비 촉진</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">7. 혈액이 혈관벽을 밀어내는 힘을 측정하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 혈압</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">8. 항이뇨호르몬 기전에 관한 그림이다. 기호에 해당하는 것을 보기에서 고르시오(중복가능).</div>
-            <div class="box-bogi">
-                <strong>[보기]</strong>
-                혈압상승, 수분재흡수증가, ADH
-            </div>
-            <div class="sub-grid">
-                <div class="sub-item">(A: <input type="text"> )</div>
-                <div class="sub-item">(B: <input type="text"> )</div>
-                <div class="sub-item">(C: <input type="text"> )</div>
-            </div>
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: (A: ADH) / (B: 수분재흡수증가) / (C: 혈압상승)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">9. 수축기혈압이 130mmHg이고 이완기혈압이 90mmHg인 성인의 맥박압은? (단위 mmHg)</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 40mmHg (130 - 90 = 40)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">10. 평균동맥압은 단일 심장주기 동안 개인의 평균 계산 혈압이다. 수축기의 혈압이 120mmHg, 확장기의 혈압이 80mmHg인 사람의 평균동맥압은 얼마인가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 93.3mmHg (계산식: 80 + (120 - 80)/3 = 93.3mmHg)</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">11. 청진법에 의한 혈압측정시 수축기혈압에서 처음 발생하는 소리는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 코로트코프음</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">12. 조직의 대사요구량에 비례하여 혈류의 국소적 조절을 담당하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 모세혈관앞조임근</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">13. 혈압과 관련된 호르몬조절에 대한 그림이다. 기호에 해당하는 것을 보기에서 고르시오(중복가능).</div>
-            <div class="diagram-desc">
-                <strong>[그림 가이드]</strong><br>
-                혈압 감소 → 콩팥에서 <strong>( A )</strong> 분비 → 간에서 분비된 <strong>( B )</strong>를 <strong>( C )</strong>로 전환 → 폐 모세혈관의 전환효소(ACE)에 의해 <strong>( E )</strong>로 전환<br>
-                • <strong>( E )</strong>의 작용 1: 혈관에 작용하여 <strong>( F )</strong> → 혈압상승<br>
-                • <strong>( E )</strong>의 작용 2: 부신겉질에서 <strong>( D )</strong> 분비 → 콩팥에서 수분 재흡수 증가 및 <strong>( G )</strong> → 혈압상승
-            </div>
-            <div class="box-bogi">
-                <strong>[보기]</strong>
-                알도스테론, 안지오텐시노겐, 안지오텐신I, 안지오텐신II, 혈관수축, 레닌, 혈압상승, 소변량감소
-            </div>
-            <div class="sub-grid">
-                <div class="sub-item">(A: <input type="text"> )</div>
-                <div class="sub-item">(B: <input type="text"> )</div>
-                <div class="sub-item">(C: <input type="text"> )</div>
-                <div class="sub-item">(D: <input type="text"> )</div>
-                <div class="sub-item">(E: <input type="text"> )</div>
-                <div class="sub-item">(F: <input type="text"> )</div>
-                <div class="sub-item">(G: <input type="text"> )</div>
-            </div>
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">
-                정답: (A: 레닌) / (B: 안지오텐시노겐) / (C: 안지오텐신I) / (D: 알도스테론) / (E: 안지오텐신II) / (F: 혈관수축) / (G: 소변량감소)
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== 11장. 림프계통과 면역계통 ==================== -->
-    <div class="chapter-page">
-        <div class="chapter-header">
-            <h2>11장. 림프계통과 면역계통</h2>
-            <div class="header-btns">
-                <button class="shuffle-btn" onclick="shuffleCurrentChapter()">🔀 이 장 문제 섞기</button>
-                <button class="restore-btn" onclick="restoreCurrentChapterOrder()">↩️ 번호순 정렬</button>
-                <button class="reset-btn" onclick="resetCurrentPage()">입력 지우기</button>
-                <button class="page-all-btn" onclick="toggleCurrentPageAnswers(this)">정답 모두 보기</button>
-            </div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">1. 큰포식세포, 백혈구, 보체, 인터페론, 자연살해세포, 허파꽈리의 큰포식세포, 재채기 등에 의한 면역을 무엇이라 하는가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 선천면역</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">2. 선천 면역의 화학매개체 3가지 이상 쓰세요.</div>
-            <input type="text" placeholder="3가지 이상 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 보체, 인터페론, 히스타민</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">3. 감염된 세포에서 생산되는 물질로, 자신을 치유하지는 못하지만 주변에 있는 세포와 결합하여 항바이러스 단백질을 생산하도록 하는 선천면역을 담당하는 화학매개체는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 인터페론</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">4. 후천면역을 획득하는 4가지 방법 중에서 어머니의 항체가 태반과 모유로 전이되는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 수동자연면역</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">5. 후천성 적응면역을 획득하는 방법 중에서 정제한 항원(백신)을 면역이 없는 사람의 몸에 투여하여 면역계통을 자극하는 예방접종을 무엇이라고 하는가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 능동인공면역</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">6. 세포매개면역반응을 주도하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: T림프구</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">7. 림프구는 적색골수에서 생산된다. T림프구가 성숙하는 곳은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 가슴샘</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">8. 혈관 밖으로 나와서 큰포식세포가 되는 백혈구는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 단핵구</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">9. 인체의 다섯종류 항체를 쓰세요.</div>
-            <input type="text" placeholder="5종류를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: IgG, IgA, IgM, IgD, IgE</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">10. 침, 눈물과 점막에 분비되어 몸의 표면의 방어기능을 하고, 초유 및 모유에 포함되어 신생아의 면역에 기여하는 항체는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: IgA</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">11. 항체 중에서 가장 많은 비율을 차지하면서 Rh신생아용혈증에 관여하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: IgG</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">12. 항원이 결합할 수 있는 장소를 함유하고 있는 당단백질을 무엇이라고 하는가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: MHC</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">13. 큰포식세포에서 항원을 제시하는 당단백질을 무엇이라 하는가?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: MHC II</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">14. 항체매개면역에 관여하는 림프구는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: B림프구</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">15. 바이러스에 감염된 세포가 항원으로 처리된 단백질분자를 세포막에 결합하여 세포막 표면에 나타내어 세포독성T세포로 하여금 정상세포와 감염된 세포를 구별할 수 있도록 하는 구조는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: MHC I</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">16. 국소염증 반응을 4가지를 쓰세요.</div>
-            <input type="text" placeholder="4가지를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 발적, 발열, 종창, 통증</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">17. 전신염증의 대표적인 증상 3가지를 쓰세요.</div>
-            <input type="text" placeholder="3가지를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: ① 호중구(중성구)의 대량 생산·분비 / ② 발열 / ③ 심한 경우 혈관 투과도 증가와 체액 소실에 의한 쇼크</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">18. 세포독성T림프구의 중요한 2가지 효과를 쓰세요.</div>
-            <input type="text" placeholder="2가지 효과를 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: ① 시토카인 분비로 세포매개면역 반응 등을 촉진 / ② 타세포(감염세포)와의 접촉으로 세포파괴</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">19. 항원을 보조T세포에게 제시하여 이 세포들이 분열하여 숫자를 증가하도록 하는 것은?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 큰포식세포</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">20. 바이러스에 감염된 세포, 암세포를 파괴하는 세포매개면역에 관여하는 세포는?</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 세포독성 T림프구</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">21. 선천면역세포를 끌어들여 염증반응과 포식작용을 촉진하여 면역계통의 세포를 활성화시키기 위하여 세포독성T림프구가 분비하는 물질을 쓰세요.</div>
-            <input type="text" placeholder="정답을 입력하세요">
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: 시토카인</div>
-        </div>
-
-        <div class="question">
-            <div class="q-text">22. B림프구와 T림프구의 기원과 성숙과정에 관한 그림이다. 기호에 해당하는 것을 보기에서 고르시오(중복가능).</div>
-            <div class="diagram-desc">
-                <strong>[그림 가이드]</strong><br>
-                • 뼈 내부의 <strong>( A )</strong>에서 줄기세포가 미성숙 B세포·미성숙 T세포 생성 (B세포는 이곳에서 성숙)<br>
-                • 미성숙 T세포는 순환을 통해 <strong>( B )</strong>로 이동하여 T세포로 성숙<br>
-                • 성숙한 B세포와 T세포가 순환을 통해 이동하여 자리잡는 기관: <strong>( C )</strong>
-            </div>
-            <div class="box-bogi">
-                <strong>[보기]</strong>
-                가슴샘, 적색골수, 림프절
-            </div>
-            <div class="sub-grid">
-                <div class="sub-item">(A: <input type="text"> )</div>
-                <div class="sub-item">(B: <input type="text"> )</div>
-                <div class="sub-item">(C: <input type="text"> )</div>
-            </div>
-            <button class="check-btn" onclick="toggleAnswer(this)">정답 확인</button>
-            <div class="answer">정답: (A: 적색골수) / (B: 가슴샘) / (C: 림프절)</div>
-        </div>
-    </div>
-
-    <!-- ==================== 🎲 랜덤 출제 전용 페이지 ==================== -->
-    <div class="chapter-page" id="randomQuizPage">
-        <div class="chapter-header">
-            <h2 id="randomQuizTitle">🎲 랜덤 출제 문제지</h2>
-            <div class="header-btns">
-                <button class="shuffle-btn" onclick="reshuffleActiveRandomQuiz()">🔄 다시 랜덤 뽑기</button>
-                <button class="reset-btn" onclick="resetCurrentPage()">입력 지우기</button>
-                <button class="page-all-btn" onclick="toggleCurrentPageAnswers(this)">정답 모두 보기</button>
-            </div>
-        </div>
-        <div id="randomQuestionsContainer"></div>
-
-        <!-- 카드형(1문제씩 보기) 전용 하단 컨트롤러 -->
-        <div class="card-Mode-controls" id="cardModeControls">
-            <button class="card-nav-btn" id="prevCardBtn" onclick="moveCard(-1)">◀ 이전 문제</button>
-            <span class="page-indicator" id="cardProgressIndicator">1 / 1</span>
-            <button class="card-nav-btn" id="nextCardBtn" onclick="moveCard(1)">다음 문제 ▶</button>
-        </div>
-    </div>
-
-    <!-- 하단 페이지 이동 컨트롤 -->
-    <div class="bottom-pagination" id="bottomPagination">
-        <button class="page-move-btn" id="prevBtn" onclick="changePage(-1)">◀ 이전 장</button>
-        <span class="page-indicator" id="pageIndicator">1 / 11 페이지</span>
-        <button class="page-move-btn" id="nextBtn" onclick="changePage(1)">다음 장 ▶</button>
+    <!-- 하단 이전/다음 장 이동 -->
+    <div class="bottom-pagination" id="chapterPagination">
+        <button class="page-move-btn" id="prevChapBtn" onclick="changeChapter(-1)">◀ 이전 장</button>
+        <span class="page-indicator" id="chapIndicator"></span>
+        <button class="page-move-btn" id="nextChapBtn" onclick="changeChapter(1)">다음 장 ▶</button>
     </div>
 
     <script>
-        let currentPage = 0; // 0~10: 정규 장, 11: 랜덤 페이지
-        const chapterPages = Array.from(document.querySelectorAll('.chapter-page')).slice(0, 11);
-        const randomPage = document.getElementById('randomQuizPage');
-        const navBtns = Array.from(document.querySelectorAll('.nav-btn')).slice(0, 11);
-        const randomTabBtn = document.getElementById('randomTabBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const pageIndicator = document.getElementById('pageIndicator');
-        const bottomPagination = document.getElementById('bottomPagination');
+        // 1장 ~ 11장 전체 문제 데이터
+        const quizData = [
+            {
+                title: "1장. 생리학이란", short: "1장. 생리학",
+                questions: [
+                    { q: "1. 인체의 주된 항상성 기전은?", a: "음성 되먹임" },
+                    { q: "2. 인체의 항상성과 관련된 음성되먹임의 종류를 쓰시오.", a: "정상 혈압의 유지 (수용체, 조절중추, 효과기), 체온 유지, 혈당량 조절 등" },
+                    { q: "3. 인체의 항상성과 관련된 양성되먹임의 종류를 쓰시오.", a: "출산(분만), 혈전형성(혈액응고)" },
+                    { q: "4. 인체의 4대 기본조직은?", a: "상피조직, 결합조직, 신경조직, 근육조직" },
+                    { q: "5. 인체의 생리현상을 내-외부 환경의 변화에 상관없이 일정하게 유지하는 것은?", a: "항상성" }
+                ]
+            },
+            {
+                title: "2장. 생명의 화학적 기초", short: "2장. 화학적 기초",
+                questions: [
+                    { q: "1. 사람의 정상적인 혈액 pH 범위는?", a: "pH 7.35 ~ 7.45" },
+                    { q: "2. 인체에 필수적인 주요 유기분자(유기물질)의 4가지는?", a: "탄수화물, 지질, 단백질, 핵산" },
+                    { q: "3. 인체를 구성하는 유기분자 중 아미노산으로 이루어져 있고, 효소, 호르몬, 항체, 헤모글로빈(혈색소)의 주요 성분이 되는 물질은?", a: "단백질" },
+                    { q: "4. 단백질의 최소 구성요소는?", a: "아미노산" },
+                    { q: "5. 체온을 안정시키고 물질을 수송하며 윤활, 완충, 보호작용을 하는 것은?", a: "물" },
+                    { q: "6. 용액에 산이나 염기가 더해지더라도 pH의 변화에 저항할 수 있는 물질을 무엇이라 하는가?", a: "완충제" },
+                    { q: "7. 신진대사는 물질을 합성하는 동화작용과 무엇으로 구성되는가?", a: "이화작용" },
+                    { q: "8. 핵산의 최소 구성단위는?", a: "뉴클레오티드" },
+                    { q: "9. 세포작용 중에 사용하는 에너지 공급원은?", a: "ATP" },
+                    { q: "10. DNA를 구성하는 염기 종류 4가지는?", a: "A, T, G, C" },
+                    { q: "11. 적혈구에서 산소와 결합할 때 필요한 이온은?", a: "철 이온" },
+                    { q: "12. 인체의 이온 중에서 혈액응고, 근육수축, 신경전달에 필요한 것은?", a: "칼슘 이온" }
+                ]
+            },
+            {
+                title: "3장. 세포의 구조와 기능", short: "3장. 세포",
+                questions: [
+                    { q: "1. 세포막을 가로지르는 물질의 운반 기전 중에서 ATP를 소모하지 않는 기전은?", a: "촉진확산 (수동운반: 단순확산, 촉진확산, 삼투)" },
+                    { q: "2. 세포막의 이차능동운반에서 동향수송시 나트륨과 함께 이동하는 물질은?", a: "포도당, 아미노산" },
+                    { q: "3. 세포막의 주요 구성성분 중에서 가장 많은 것은?", a: "인지질, 단백질" },
+                    { q: "4. 원형질막의 선택적 투과막을 가로지르는 물(용매)의 이동 방법은?", a: "삼투" },
+                    { q: "5. 폐포와 모세혈관, 모세혈관과 조직세포에서 이루어지는 산소와 이산화탄소의 기체교환의 원리를 쓰세요.", a: "단순확산" },
+                    { q: "6. 세포막을 통한 물질이동 중 높은 농도에서 낮은 농도로 용질이 이동하는 것은?", a: "확산" },
+                    { q: "7. 세포 표면으로 돌출하여 움직임이 가능한 구조로 호흡통로에 존재하여 찌꺼기 제거를 돕거나, 뇌실막세포에 존재하여 뇌척수액의 이동을 돕는 구조는?", a: "섬모" },
+                    { q: "8. 정자세포를 이동시키는 기능을 하는 것은?", a: "편모" },
+                    { q: "9. 세포의 표면을 증가시키고 흡수를 도와주는 것은?", a: "미세융모" },
+                    { q: "10. 조직안의 세포수를 일정하게 유지하기 위하여 여분의 세포를 제거하는 것을 무엇이라 하는가?", a: "세포 자멸사" },
+                    { q: "11. 강력한 가수분해 효소를 가지고 있는 세포내의 작은 구형의 소체로 세포질 내에서 불필요한 물질을 분해하는 세포내소화를 담당하는 세포내 소기관은?", a: "용해소체" },
+                    { q: "12. 다음의 세포소기관과 기능은?", subs: ["① 리보소체(리보솜)", "② 과립세포질그물", "③ 골지복합체", "④ 사립체(미토콘드리아)", "⑤ 섬모", "⑥ 편모"], a: "① 단백질 합성 / ② 단백질 합성·가공 / ③ 단백질·지질의 가공, 분류, 포장 및 분비 / ④ 세포호흡을 통한 ATP 생산 / ⑤ 세포표면의 물질 이동 / ⑥ 세포자체의 이동(정자)" },
+                    { q: "13. 적혈구가 용혈을 일으키는 용액의 상태는?", a: "저장액" }
+                ]
+            },
+            {
+                title: "4장. 뼈대계통", short: "4장. 뼈대계통",
+                questions: [
+                    { q: "1. 뼈의 복구 및 치유 과정에서 섬유와 연골의 망이 형성되는 시기는?", a: "2~3일 뒤 (가골/애벌뼈 형성)" },
+                    { q: "2. 애벌뼈를 구성하는 물질은?", a: "섬유연골" },
+                    { q: "3. 골절된 뼈가 복구되는 과정중 뼈모세포가 유입되는 시기는?", a: "애벌뼈의 뼈되기 단계" },
+                    { q: "4. 뼈단위(osteon)가 있는 뼈조직의 부위는?", a: "치밀뼈" },
+                    { q: "5. 이마뼈와 마루뼈, 빗장뼈의 뼈되기 방법은?", a: "막뼈되기" },
+                    { q: "7. 넓적다리뼈와 위팔뼈와 같은 긴뼈의 뼈되기 방법은?", a: "연골속뼈되기" },
+                    { q: "8. 뼈의 세포 중에서 혈액으로부터 뼈로 칼슘을 축적시키는 것은?", a: "골모세포 (뼈모세포)" },
+                    { q: "9. 소장에서 혈액으로 칼슘흡수를 촉진시키는 비타민은?", a: "비타민 D" },
+                    { q: "10. 칼슘의 항상성을 유지하는 호르몬중 뼈파괴세포를 자극하는 것은?", a: "부갑상샘 호르몬 (PTH)" },
+                    { q: "11. 칼슘의 항상성을 유지하는 호르몬 중 뼈파괴세포를 억제시키고 콩팥분비를 증가시키는 것은?", a: "칼시토닌" },
+                    { q: "12. 긴뼈의 구조이다. 물음에 답하시오.", subs: ["1) 무게 증가 없이 강도 높임", "2) 동심원상 배열 구조", "3) 장축 평행 주행 관", "4) 재생·보호·영양 담당"], a: "1) 잔기둥(해면뼈) / 2) 뼈단위 / 3) 중심관 / 4) 뼈막" }
+                ]
+            },
+            {
+                title: "5장. 근육계통", short: "5장. 근육계통",
+                questions: [
+                    { q: "1. 뼈대근육을 구성하는 두가지 잔섬유를 쓰세요.", a: "액틴, 마이오신 잔섬유" },
+                    { q: "2. 가는근육잔세포를 구성하는 단백질은?", a: "액틴, 트로포닌, 트로포미오신" },
+                    { q: "3. 근육원섬유마디(sarcomere)의 범위는?", a: "하나의 Z원반에서 다음 Z원반까지" },
+                    { q: "4. 근육을 구성하는 성분 중 근세포에 해당하는 것은?", a: "근섬유" },
+                    { q: "5. 뼈대근육이 수축과 이완을 할 때 길이의 변화 없이 일정한 부위는?", a: "A대" },
+                    { q: "6. 수축할 때 길이가 감소하는 근육원섬유마디의 부위는?", a: "I대, H대" },
+                    { q: "7. 근육세포질그물에서 방출되어 트로포닌과 결합하여 트로포미오신부위를 노출시키는 물질은?", a: "칼슘이온" },
+                    { q: "8. 심장근육세포들이 마치 하나의 근육처럼 작용할 수 있도록 하는 구조물을 무엇이라고 하는가?", a: "사이원반" },
+                    { q: "9. 뼈대근육 수축과정에서 가로세관 옆에 위치한 근육세포질그물에서 방출되는 물질은?", a: "칼슘이온" },
+                    { q: "10. 뼈대근육 수축 시, 직접적인 에너지원으로 사용되는 것은 무엇인지 쓰세요.", a: "ATP" },
+                    { q: "11. 뼈대근육 수축과정에서 미오신머리가 액틴을 끌어당길 때 소모되는 물질은?", a: "ATP" },
+                    { q: "12. 액틴과 미오신머리의 연결다리를 형성할 수 있도록 칼슘과 결합하는 단백질은?", a: "트로포닌" },
+                    { q: "13. 자극의 빈도가 너무(매우) 빨라서 근육이 이완되지 못해서 발생하는 근수축의 종류는?", a: "강축" },
+                    { q: "14. 근육이 한번의 자극에 대해 반응하며, 시동기, 수축기, 이완기로 이루어지면서 근육섬유가 수축하는 것을 무엇이라고 하는가?", a: "단일수축 (연축)" },
+                    { q: "15. 근육원섬유마디의 그림이다. 물음에 답하시오.", desc: "A: 지그재그 경계선 / B: 굵은 섬유 전체 구간 / C: 가는 섬유만 있는 구간 / D: H대 / E: M선 / F: A~A 사이 한 마디 / G: 가는 섬유 / H: 굵은 섬유", subs: ["1) 액틴 잔섬유", "2) 미오신 잔섬유", "3) A 밴드", "4) I 밴드", "5) Z 원반", "6) 근육원섬유마디"], a: "1) G / 2) H / 3) B / 4) C / 5) A / 6) F" },
+                    { q: "16. 휴식상태와 운동상태에서 ATP운영에 관한 그림이다. 기호에 해당하는 것을 보기에서 고르시오.", desc: "휴식상태: (A) → ATP → (E) 및 (C)+P ↔ (D) / 운동상태: 유산소호흡 및 (B) → ATP → (F)", bogi: "크레아틴, 크레아틴인산염, 자세유지, 활발한 근육수축, 유산소호흡, 무산소호흡", subs: ["A", "B", "C", "D", "E", "F"], a: "A: 유산소호흡 / B: 무산소호흡 / C: 크레아틴 / D: 크레아틴인산염 / E: 근긴장도, 자세유지 / F: 활발한 근육수축" }
+                ]
+            },
+            {
+                title: "6장. 신경계통", short: "6장. 신경계통",
+                questions: [
+                    { q: "1. 눈, 코 및 귀의 특수감각기관의 신경세포를 구성하는 신경세포의 유형은?", a: "양극 신경세포" },
+                    { q: "2. 연접이전종말에서 연접틈새로 방출하는 물질을 통칭해서 무엇이라 하는가?", a: "신경전달물질" },
+                    { q: "3. 말이집축삭에서 활동전위의 전달방식은?", a: "도약전도" },
+                    { q: "4. 대뇌겉질의 영역을 쓰세요.", subs: ["① 일반감각영역", "② 시각겉질", "③ 청각겉질", "④ 후각겉질", "⑤ 미각영역", "⑥ 일차운동영역", "⑦ 감각언어영역", "⑧ 운동언어영역"], a: "① 두정엽 / ② 후두엽 / ③ 측두엽 / ④ 측두엽 / ⑤ 섬엽 / ⑥ 이마엽의 중심앞이랑 / ⑦ 베르니케 영역 / ⑧ 브로카 영역" },
+                    { q: "5. 후각을 제외하고 대뇌로 전달되는 대부분의 오름감각 신경의 중계중추로 작용하는 뇌의 부분의 명칭을 쓰세요.", a: "시상" },
+                    { q: "6. 몸의 균형과 근육의 긴장도를 유지 및 몸의 미세한 움직임을 조정과 대뇌와 함께 운동학습에 관여하며, 특히 알코올에 의해 기능이 억제되는 뇌 부위의 명칭을 쓰세요.", a: "소뇌" },
+                    { q: "7. 구토, 침분비, 하품, 딸꾹질, 삼킴 등의 반사중추를 쓰세요.", a: "숨뇌" },
+                    { q: "8. 장기적인 서술기억, 감성, 감정에 대한 내장반응, 동기부여 및 기분에 영향을 미치며, 후각정보가 가장 중요한 감각정보로 작용하여 배고픔, 갈증과 같은 생존을 위해 냄새자극에 반응하는 이곳은?", a: "둘레계통" },
+                    { q: "9. 대뇌겉질과 척수를 연결하는 운동신경의 중계역할을 하고 대뇌겉질에서 계획된 수의운동뿐 아니라 무의식적인 뼈대근육의 움직임을 조절하는 곳을 쓰세요.", a: "뇌줄기" },
+                    { q: "10. 작업기억, 단기기억, 장기기억을 각각 간단히 설명하세요.", subs: ["(1) 작업기억", "(2) 단기기억", "(3) 장기기억"], a: "(1) 작업기억: 수초~수분 기억되는 즉시작업\n(2) 단기기억: 수분간 기억되는, 이후 강화 과정으로 장기기억되는 기억\n(3) 장기기억: 반복학습 등 강화과정을 거쳐 오래 기억되는 기억" },
+                    { q: "11. 다음 중 척수의 뒤뿌리를 구성하는 신경은?", a: "감각신경" },
+                    { q: "12. 반사활의 구성요소를 쓰세요.", a: "감각수용기, 감각신경, 사이신경, 운동신경, 효과기" },
+                    { q: "13. 중간뇌반사, 연수반사, 척수반사의 종류를 각각 쓰세요.", a: "중간뇌반사(동공반사, 시청각반사), 연수반사(기침, 재채기, 삼킴, 구토), 척수반사(신장반사, 회피반사)" },
+                    { q: "14. 통증을 수반하는 자극으로부터 팔다리와 몸의 다른 부위를 보호하기 위해 신체를 벗어나게 작용하는 척수반사는?", a: "회피반사" },
+                    { q: "15. 강한 정신활동을 하는 동안에 일어나는 뇌파 상태는?", a: "베타파" },
+                    { q: "16. 알파, 베타, 델타, 세타파의 뇌파를 각각 설명하세요.", a: "알파파(안정·휴식), 베타파(강한 정신활동·각성), 세타파(수면 초기·어린이), 델타파(깊은 수면·유아)" },
+                    { q: "17. 뇌신경 중에서 부교감신경 성분은? (뇌신경 번호와 이름을 쓰세요.)", a: "III 눈돌림신경, VII 얼굴신경, IX 혀인두신경, X 미주신경" },
+                    { q: "18. 얼굴의 표정근의 움직임을 전달하고, 혀의 뿌리(앞쪽 2/3)에서 맛 정보를 뇌로 전달하는 것은?", a: "VII 얼굴신경" },
+                    { q: "19. 혀의 뿌리 및 입천장에서의 맛정보를 뇌로 전달하는 신경은?", a: "IX 혀인두신경" },
+                    { q: "20. 모든 뇌신경 중에서 가장 굵은 신경으로, 가장 넓은 범위에 일반감각분포를 가지고 있으며, 얼굴의 피부에서 뇌로 감각정보를 전달하는 유일한 뇌신경의 명칭을 쓰세요.", a: "V 삼차신경" },
+                    { q: "21. 뇌신경을 감각신경, 운동신경, 혼합신경으로 구분하세요. (뇌신경번호와 이름을 쓰세요.)", subs: ["(1) 감각신경", "(2) 운동신경", "(3) 혼합신경"], a: "(1) 감각: I 후각, II 시각, VIII 내이신경\n(2) 운동: III 눈돌림, IV 도르래, VI 갓돌림, XI 더부, XII 혀밑신경\n(3) 혼합: V 삼차, VII 얼굴, IX 혀인두, X 미주신경" },
+                    { q: "22. 신경세포를 구조적으로 지지하고, 혈관-뇌장벽을 형성하는데 관여하는 신경아교세포는?", a: "별아교세포" },
+                    { q: "23. 중추신경계와 말초신경계에서 축삭을 둘러싸는 말이집을 형성하는 신경아교세포를 각각 쓰세요.", a: "중추신경계: 희소돌기아교세포 / 말초신경계: 신경집세포(슈반세포)" },
+                    { q: "24. 세균의 감염으로부터 중추신경계통을 보호하고, 염증에 반응하여 포식세포가 되는 신경아교세포는?", a: "미세아교세포" },
+                    { q: "25. 고위운동중추에서 척수까지의 운동신경 중, 숨뇌의 피라미드에서 교차가 되는 척수로는?", a: "피질척수로" },
+                    { q: "26. 오름신경로중 신체의 자세와 관련된 정보를 소뇌로 전달하는 것은?", a: "척수소뇌로" },
+                    { q: "27. 근육의 긴장도, 숙련된 손의 움직임의 속도와 정확도에 관여하는 내림신경경로의 신경교차가 이루어지는 곳은?", a: "숨뇌" },
+                    { q: "28. 국소전위가 문턱값에 도달하여 활동전위가 시작되어 탈분극과 재분극이 이루어지도록 하는 물질의 이동을 각각 쓰세요.", a: "탈분극: Na+ 유입 / 재분극: K+ 유출" },
+                    { q: "29. 활동전위와 관련된 그림이다. 물음에 답하시오.", desc: "A: 전체 파형 / B: 상승 구간 / C: 하강 구간 / D: 점선(역치) / E: 초기 상승 / F: -70mV 아래 하강 / G: -70mV 기준선", bogi: "rmp, 과분극, 문턱값, 재분극, 탈분극, 국소전위, 활동전위", subs: ["A", "B", "C", "D", "E", "F", "G", "2) Na+ 유입", "3) K+ 유출", "4) K+ 과다유출"], a: "A: 활동전위 / B: 탈분극 / C: 재분극 / D: 문턱값 / E: 국소전위 / F: 과분극 / G: rmp\n2) 탈분극 / 3) 재분극 / 4) 과분극" },
+                    { q: "30. 관문통로의 두가지 종류를 쓰시오.", a: "전압 의존형 통로, 화학작동 통로" },
+                    { q: "32. 누출통로에 대한 보상차원으로 세포막의 안정막 전위를 유지하기 위하여 필요한 것은?", a: "나트륨-칼륨 펌프" },
+                    { q: "33. 다음의 활동전위 과정을 순서대로 쓰세요: (안정막전위)-( ① )-( ② )-( ③ )-(안정막전위)", a: "1. 탈분극, 2. 재분극, 3. 과분극" },
+                    { q: "34. 탈분극할 때 세포안으로 확산되어 들어가는 물질은 무엇인가?", a: "나트륨이온 (Na+)" },
+                    { q: "35. 연접전신경의 연접소포에서 아세틸콜린이 분비되는 부위는?", a: "연접이전종말" },
+                    { q: "36. 신경근육이음부에서 아세틸콜린의 재사용을 위해 빠르게 재흡수되도록 하는 물질은?", a: "콜린" },
+                    { q: "37. 내분비계통과 더불어 신체 내부 환경의 안정성을 유지하고 내장기관을 조절하는 자율신경계 중 교감신경의 기능을 쓰세요.", a: "투쟁반응" },
+                    { q: "38. 교감신경 작용의 영향만 받는 곳은?", a: "땀샘과 대부분의 혈관" },
+                    { q: "39. 교감신경의 신경절이전 신경세포가 시작되는 곳은?", a: "T1 ~ L2" },
+                    { q: "40. 부교감신경(원본: 교감신경)의 신경절이전 신경세포가 시작되는 곳은?", a: "뇌줄기 및 S2~S4 (교감신경은 T1~L2)" },
+                    { q: "41. 척수의 가로면과 관련된 그림이다. 기호에 해당하는 것을 보기에서 고르시오.", bogi: "뒤뿌리신경절, 뒤뿌리, 감각신경, 앞뿌리, 자율신경, 몸운동신경, 사이신경, 척수신경", subs: ["A", "B", "C", "D", "E", "F", "G", "H"], a: "A: 뒤뿌리 / B: 뒤뿌리신경절 / C: 감각신경 / D: 척수신경 / E: 사이신경 / F: 앞뿌리 / G: 자율신경 / H: 몸운동신경" }
+                ]
+            },
+            {
+                title: "7장. 감각기관", short: "7장. 감각기관",
+                questions: [
+                    { q: "1. 인체의 특수감각을 4가지로 분류하여 쓰시오.", a: "후각, 미각, 청각, 시각" },
+                    { q: "2. 혀의 미각정보를 뇌로 전달하는데 관여하는 신경을 모두 쓰세요.", a: "VII 얼굴신경, IX 혀인두신경, X 미주신경" },
+                    { q: "3. 청각장애의 종류를 크게 두가지로 분류하고, 각각 결함의 원인도 함께 쓰세요.", a: "전도성 난청(망치뼈·모루뼈 인대 파괴 등 전달 결함), 감각신경성 난청(나선기관 또는 신경경로 결함)" },
+                    { q: "4. 털세포가 있는 팽대능선을 가지고 있으며, 회전감각을 감지하여 동적평형에 관여하는 구조는?", a: "반고리뼈관" },
+                    { q: "5. 청각과 평형감각을 대뇌겉질로 전달시켜주는 신경은?", a: "VIII 내이신경" },
+                    { q: "6. 평형감각중 정적평형과 동적평형을 담당하는 곳을 각각 쓰시오.", a: "정적: 타원주머니, 둥근주머니 / 동적: 반고리뼈관" },
+                    { q: "7. 청각을 받아들이는 곳 중 바닥막과 덮개막, 털세포로 구성되어 있는 것은?", a: "나선기관" },
+                    { q: "8. 청각수용기인 달팽이관이 존재하는 Skull의 부위는?", a: "측두골" },
+                    { q: "9. 황반의 중앙에 위치하여 눈이 사물을 직접 볼 때 빛이 대부분 집중되고, 오직 원뿔세포만으로 이루어져 있는 망막의 부위는?", a: "중심오목" },
+                    { q: "10. 안구가 팽창되어 있게 유지하고, 빛을 굴절시키며, 수정체와 망막에 영양물질을 공급하는 역할을 하는 것은?", a: "방수" },
+                    { q: "11. 혈관과 색소세포의 분포가 풍부하여 주변조직에 영양물질을 공급하며, 혈관과 멜라닌색소로 인해 검은색으로 보이는 안구의 혈관층에 존재하는 부위는?", a: "맥락막" },
+                    { q: "12. 황반의 바로 안쪽에 있는 하얀 지점으로 혈관이 안구 내부로 들어오고, 시각신경이 빠져나가는 지점으로 광수용기가 없어, 빛에 반응하지 못하여 맹점이라고도 불리는 지점은?", a: "시각신경원반" },
+                    { q: "13. 안구를 3개의 층으로 나누어 각 층별로 존재하는 구조물을 쓰세요.", a: "안구섬유층, 포도막(안구혈관층), 안구신경층" },
+                    { q: "14. 밤소경증(야맹증)은 어떤 비타민이 부족시 발생되는가?", a: "비타민 A" },
+                    { q: "15. 안구혈관층의 한 부분으로 수정체의 두께를 조절하고 무혈관구조인 각막과 수정체에 산소와 양분을 공급하는 안구방수를 생성하는 곳은 어디인지 쓰세요.", a: "모양체" },
+                    { q: "16. 눈꺼풀의 안쪽 면과 안구의 앞쪽 면을 덮고 있는 투명하고 얇은 점액성의 막으로, 안구의 표면을 부드럽게 하는데 도움이 되는 물질이 분비되는 이곳은 어디인가?", a: "결막" },
+                    { q: "17. 안구에서 빛이 통과하는 순서는?", a: "각막 → 안구방수 → 동공 → 수정체 → 유리체 → 망막" },
+                    { q: "18. 안구로 들어오는 대부분의 빛을 집중시키는 기능을 하는 구조물은?", a: "각막 (및 수정체)" },
+                    { q: "19. 눈의 부속구조물에 해당하는 구조물을 쓰세요.", a: "눈썹, 눈꺼풀, 결막, 눈물기관, 안구근육" },
+                    { q: "20. 시각과 청각 반사가 이루어지는 위둔덕과 아래둔덕이 위치하는 뇌의 부분은?", a: "중간뇌" },
+                    { q: "21. 시각반사에 관여하는 중간뇌 부분은?", a: "위둔덕" },
+                    { q: "22. 막대세포의 막에 있는 물질 중에서 레티날과 옵신이 결합하여 형성된 것은?", a: "로돕신" },
+                    { q: "23. 청각경로에 관한 그림이다. 기호에 해당하는 것을 보기에서 고르시오(중복 가능).", bogi: "안뜰창, 등자뼈, 바깥림프, 속림프, 달팽이창, 안뜰계단, 고실계단, 나선기관, 달팽이관, 달팽이신경, 모루뼈", subs: ["A", "B", "C", "D", "E", "F", "G", "H", "②", "④", "⑥"], a: "A: 안뜰창 / B: 모루뼈 / C: 달팽이창 / D: 달팽이신경 / E: 안뜰계단 / F: 고실계단 / G: 속림프 / H: 나선기관 / ②: 등자뼈 / ④: 바깥림프 / ⑥: 고실계단" },
+                    { q: "24. 근방추, 골지힘줄기관에 위치하여 근육과 관절의 움직임을 감지하는 수용기는?", a: "고유수용기" }
+                ]
+            },
+            {
+                title: "8장. 혈액", short: "8장. 혈액",
+                questions: [
+                    { q: "1. 백혈구 중에서 히스타민 분비, 염증반응 및 헤파린을 분비하여 피덩이형성예방에 관여하는 것은?", a: "호염기구" },
+                    { q: "2. 백혈구 중에서 알레르기, 천식반응 및 기생충의 파괴에 관여하는 것은?", a: "호산구" },
+                    { q: "3. 혈장단백질 3종류를 쓰시오.", a: "알부민, 글로불린, 섬유소원" },
+                    { q: "4. 혈장단백질 중 가장 많은 비율을 차지하면서 혈액의 삼투압에 기여하는 것은?", a: "알부민" },
+                    { q: "5. 항체 중에서 가장 많은 비율을 차지하면서 Rh신생아용혈증에 관여하는 것은?", a: "IgG" },
+                    { q: "6. 수명이 끝난 적혈구의 헤모글로빈은 쪼개져 (A)와 (B)로 분해되고, (A)는 다시 (C)와 (D)로 분해되어 (B)와는 (D)재사용되고 (C)는 전환되어 (E)으로 분비된다. A~E를 쓰세요.", a: "A: 헴, B: 글로빈, C: 빌리루빈, D: 철, E: 담즙" },
+                    { q: "7. 혈액의 고형성분을 3종류 쓰시오.", a: "적혈구, 백혈구, 혈소판" },
+                    { q: "8. 총혈액량에서 적혈구가 차지하는 비율을 무엇이라 하는가?", a: "적혈구용적률" },
+                    { q: "9. 온혈구수(CBC) 혈액의 분석방법에서 CBC의 구성은?", a: "적혈구수, 헤모글로빈, 적혈구용적률, 백혈구수" },
+                    { q: "10. 혈액에서 이산화탄소 운반의 70%의 비율로 가장 많이 이용되는 것은?", a: "중탄산 이온" },
+                    { q: "11. 적혈구생산에 관련된 그림이다. 기호에 해당하는 것을 보기에서 고르시오.", desc: "혈액 내 산소 (A) → 콩팥에서 (B) 분비 → 적색골수 적혈구 생산 증가 → 혈액 내 산소 (C)", bogi: "산소감소, 산소증가, 적혈구형성인자", subs: ["A", "B", "C"], a: "A: 산소감소 / B: 적혈구형성인자 / C: 산소증가" },
+                    { q: "12. 섬유소를 서서히 파괴시키는 물질로, 피덩이를 용해하고 혈액 흐름을 회복시켜주는 섬유소용해물질은?", a: "플라스민" },
+                    { q: "13. 혈액의 손실방지 기작 중에서 혈관벽 안의 민무늬근육의 수축 작용으로 작은 혈관을 폐쇄시키는 기전은?", a: "혈관연축" },
+                    { q: "14. 혈액응고 과정에서 섬유소원(Fibrinogen)을 섬유소(Fibrin)로 전환시켜주는 물질이 무엇인가?", a: "트롬빈" },
+                    { q: "15. 적혈구의 표면에는 B형 항원을, 혈장에는 항A항체를 갖고 있는 사람의 혈액형은?", a: "B형" },
+                    { q: "16. 엄마가 Rh음성이고, 태아가 Rh양성인 경우, 엄마의 Rh항체가 태반을 통하여 태아에게로 이동하여 태아의 적혈구의 용해와 응고를 일으키는 것을 무엇이라 하는가?", a: "태아의 용혈병, 태아적혈모구증" },
+                    { q: "17. 혈액의 산소 수치가 낮은 것에 대응하여 적혈구생성인자를 생산하여 적색골수에서의 적혈구의 생산을 자극하는 기관은?", a: "신장" }
+                ]
+            },
+            {
+                title: "9장. 심장", short: "9장. 심장",
+                questions: [
+                    { q: "1. 심장조절의 중추는?", a: "숨뇌" },
+                    { q: "2. 심장길잡이 역할을 하여 심장의 수축을 시작하게 하는 것은?", a: "굴심방결절" },
+                    { q: "3. 심장전도계통을 쓰세요.", a: "굴심방결절, 심방전도, 방실결절, 방실다발, 오른·왼 다발갈래, 심장내막하가지" },
+                    { q: "4. 심전도 5종류 전기파를 쓰세요.", a: "P, Q, R, S, T파" },
+                    { q: "5. 정상심전도 T파가 일어날 때 심장의 상태에 해당하는 것은?", a: "심실재분극" },
+                    { q: "6. 정상심전도 QRS복합파가 일어날 때 심장의 상태는?", a: "심실 탈분극" },
+                    { q: "7. 심장의 제1심음이 날 때 닫히는 판막과 이때의 심전도파는?", a: "방실판막, QRS 복합파 직후, 심실수축 시작 무렵" },
+                    { q: "8. 심장의 활동전위 중 불응기를 길게 만들어주는 역할을 하는 구간은?", a: "고조기" },
+                    { q: "9. 심장근육의 활동전위 중 칼슘통로가 지속적으로 열려있어 재분극을 늦추는 시기는?", a: "고조기" },
+                    { q: "10. 심장근육이 뼈대근육과 다르게 고조기를 형성하여 긴 불응기가 지속되는 이유는?", a: "강축(지속적 수축)을 방지하고 심실에 혈액을 채울 이완 시간을 확보하기 위해" },
+                    { q: "11. 심장박출량은?", a: "1분당 심장이 수축할 때 뿜어지는 혈액량 [심장박출량 = 심박수 × 일회박출량]" },
+                    { q: "12. 복귀정맥혈에 따라 심장의 전부하가 달라져 심장박출량이 달라지는데, 이러한 전부하와 일회박출량 사이의 연관성을 설명한 법칙은?", a: "Starling 법칙" },
+                    { q: "13. 자율신경 중에서 일회박출량과 심장박동수를 증가시키는 것은?", a: "교감신경" },
+                    { q: "14. 심장자체가 지니고 있는 심장기능 조절기전 중에서 심실이완이 완료되었을 때 심실벽에 가해진 긴장도를 무엇이라 하는가?", a: "전부하" },
+                    { q: "15. 심장의 외재적 조절요인 중에서 압력수용기가 있는 곳은?", a: "대동맥과 속목동맥" },
+                    { q: "16. 심장의 외재적 조절을 정리한 그림이다. 기호에 해당하는 것을 보기에서 고르시오.", bogi: "대동맥, 목동맥토리, 속목동맥, 숨뇌, E와 NE, 부신속질, 교감신경, 부교감신경, 굴심방결절, 감각신경", subs: ["①", "②", "③", "④", "A", "B", "C", "D", "E", "F", "G"], a: "① 감각신경 / ② 부교감신경 / ③ 교감신경 / ④ 교감신경 / A: 속목동맥 / B: 목동맥토리 / C: 대동맥 / D: 굴심방결절 / E: 숨뇌 / F: 부신속질 / G: E와 NE" }
+                ]
+            },
+            {
+                title: "10장. 혈관과 순환계통", short: "10장. 혈관·순환",
+                questions: [
+                    { q: "1. 동맥압 조절 과정에서 압력수용기와 화학수용기가 존재하는 혈관 2곳은?", a: "목동맥팽대, 대동맥활" },
+                    { q: "2. 심장과 혈관에 대한 교감신경을 증가시키는 자극이 부신속질에 대한 교감신경을 자극할 때, 부신속질에서 분비되는 호르몬은? (정답2개)", a: "에피네프린, 노르에피네프린" },
+                    { q: "3. 혈관과 심장의 교감신경의 자극을 증가시키는 신호에 의해 나타나는 현상은?", a: "① 심장박동수, 일회박출량 증가 / ② 피부와 장기의 혈관수축 / ③ 혈압증가" },
+                    { q: "4. 높아진 혈압에 반응하여 심장에서 분비가 증가하는 호르몬은?", a: "ANH, ANP" },
+                    { q: "5. 동맥압을 조절할 때 혈압이 감소하면 신장에서 분비하는 호르몬은?", a: "레닌" },
+                    { q: "6. 호르몬에 의한 혈압조절 기전의 과정 중에서 안지오텐신II의 역할 2가지를 쓰세요.", a: "혈관수축, 알도스테론 분비 촉진" },
+                    { q: "7. 혈액이 혈관벽을 밀어내는 힘을 측정하는 것은?", a: "혈압" },
+                    { q: "8. 항이뇨호르몬 기전에 관한 그림이다. 기호에 해당하는 것을 보기에서 고르시오.", desc: "뇌하수체 뒤엽 (A) 분비 → 신장 (B) & 혈관 수축 → 결과: (C)", bogi: "혈압상승, 수분재흡수증가, ADH", subs: ["A", "B", "C"], a: "A: ADH / B: 수분재흡수증가 / C: 혈압상승" },
+                    { q: "9. 수축기혈압이 130mmHg이고 이완기혈압이 90mmHg인 성인의 맥박압은? (단위 mmHg)", a: "40mmHg (130 - 90 = 40)" },
+                    { q: "10. 평균동맥압은 단일 심장주기 동안 개인의 평균 계산 혈압이다. 수축기의 혈압이 120mmHg, 확장기의 혈압이 80mmHg인 사람의 평균동맥압은 얼마인가?", a: "93.3mmHg (80 + 40/3)" },
+                    { q: "11. 청진법에 의한 혈압측정시 수축기혈압에서 처음 발생하는 소리는?", a: "코로트코프음" },
+                    { q: "12. 조직의 대사요구량에 비례하여 혈류의 국소적 조절을 담당하는 것은?", a: "모세혈관앞조임근" },
+                    { q: "13. 혈압과 관련된 호르몬조절에 대한 그림이다. 기호에 해당하는 것을 보기에서 고르시오.", desc: "콩팥 (A) → 간 (B)를 (C)로 → 폐 전환효소에 의해 (E)로 → 부신겉질 (D) 분비 → 콩팥 (G) 및 혈관 (F)", bogi: "알도스테론, 안지오텐시노겐, 안지오텐신I, 안지오텐신II, 혈관수축, 레닌, 혈압상승, 소변량감소", subs: ["A", "B", "C", "D", "E", "F", "G"], a: "A: 레닌 / B: 안지오텐시노겐 / C: 안지오텐신I / D: 알도스테론 / E: 안지오텐신II / F: 혈관수축 / G: 소변량감소" }
+                ]
+            },
+            {
+                title: "11장. 림프계통과 면역계통", short: "11장. 림프·면역",
+                questions: [
+                    { q: "1. 큰포식세포, 백혈구, 보체, 인터페론, 자연살해세포, 허파꽈리의 큰포식세포, 재채기 등에 의한 면역을 무엇이라 하는가?", a: "선천면역" },
+                    { q: "2. 선천 면역의 화학매개체 3가지 이상 쓰세요.", a: "보체, 인터페론, 히스타민" },
+                    { q: "3. 감염된 세포에서 생산되는 물질로, 자신을 치유하지는 못하지만 주변에 있는 세포와 결합하여 항바이러스 단백질을 생산하도록 하는 선천면역을 담당하는 화학매개체는?", a: "인터페론" },
+                    { q: "4. 후천면역을 획득하는 4가지 방법 중에서 어머니의 항체가 태반과 모유로 전이되는 것은?", a: "수동자연면역" },
+                    { q: "5. 후천성 적응면역을 획득하는 방법 중에서 정제한 항원(백신)을 면역이 없는 사람의 몸에 투여하여 면역계통을 자극하는 예방접종을 무엇이라고 하는가?", a: "능동인공면역" },
+                    { q: "6. 세포매개면역반응을 주도하는 것은?", a: "T림프구" },
+                    { q: "7. 림프구는 적색골수에서 생산된다. T림프구가 성숙하는 곳은?", a: "가슴샘" },
+                    { q: "8. 혈관 밖으로 나와서 큰포식세포가 되는 백혈구는?", a: "단핵구" },
+                    { q: "9. 인체의 다섯종류 항체를 쓰세요.", a: "IgG, IgA, IgM, IgD, IgE" },
+                    { q: "10. 침, 눈물과 점막에 분비되어 몸의 표면의 방어기능을 하고, 초유 및 모유에 포함되어 신생아의 면역에 기여하는 항체는?", a: "IgA" },
+                    { q: "11. 항체 중에서 가장 많은 비율을 차지하면서 Rh신생아용혈증에 관여하는 것은?", a: "IgG" },
+                    { q: "12. 항원이 결합할 수 있는 장소를 함유하고 있는 당단백질을 무엇이라고 하는가?", a: "MHC" },
+                    { q: "13. 큰포식세포에서 항원을 제시하는 당단백질을 무엇이라 하는가?", a: "MHC II" },
+                    { q: "14. 항체매개면역에 관여하는 림프구는?", a: "B림프구" },
+                    { q: "15. 바이러스에 감염된 세포가 항원으로 처리된 단백질분자를 세포막에 결합하여 세포막 표면에 나타내어 세포독성T세포로 하여금 정상세포와 감염된 세포를 구별할 수 있도록 하는 구조는?", a: "MHC I" },
+                    { q: "16. 국소염증 반응을 4가지를 쓰세요.", a: "발적, 발열, 종창, 통증" },
+                    { q: "17. 전신염증의 대표적인 증상 3가지를 쓰세요.", a: "① 호중구(중성구)의 대량 생산·분비 / ② 발열 / ③ 심한 경우 혈관 투과도 증가와 체액 소실에 의한 쇼크" },
+                    { q: "18. 세포독성T림프구의 중요한 2가지 효과를 쓰세요.", a: "① 시토카인 분비로 세포매개면역 반응 등을 촉진 / ② 타세포와의 접촉으로 세포파괴" },
+                    { q: "19. 항원을 보조T세포에게 제시하여 이 세포들이 분열하여 숫자를 증가하도록 하는 것은?", a: "큰포식세포" },
+                    { q: "20. 바이러스에 감염된 세포, 암세포를 파괴하는 세포매개면역에 관여하는 세포는?", a: "세포독성 T림프구" },
+                    { q: "21. 선천면역세포를 끌어들여 염증반응과 포식작용을 촉진하여 면역계통의 세포를 활성화시키기 위하여 세포독성T림프구가 분비하는 물질을 쓰세요.", a: "시토카인" },
+                    { q: "22. B림프구와 T림프구의 기원과 성숙과정에 관한 그림이다. 기호에 해당하는 것을 보기에서 고르시오.", desc: "뼈 내부 (A) 생성 → 미성숙 T세포는 (B)에서 성숙 → 성숙한 B·T세포가 (C)로 이동", bogi: "가슴샘, 적색골수, 림프절", subs: ["A", "B", "C"], a: "A: 적색골수 / B: 가슴샘 / C: 림프절" }
+                ]
+            }
+        ];
 
-        // 카드 모드 상태 변수
-        let currentCardIndex = 0;
-        let currentViewMode = 'list';
+        const REVIEW_KEY = 'physio_review_v1';
+        let reviewSet = new Set(JSON.parse(localStorage.getItem(REVIEW_KEY) || '[]'));
+        let currentChap = 0;
+        let isRandomMode = false;
+        let activeQuestions = [];
+        let viewMode = 'list';
+        let cardIdx = 0;
 
-        // 초기 구동 시 각 문제에 원래 순서 및 소속 장 정보 저장
+        // 초기화
         window.addEventListener('DOMContentLoaded', () => {
-            chapterPages.forEach((page, cIdx) => {
-                const chapterTitle = page.querySelector('h2').textContent;
-                const questions = page.querySelectorAll('.question');
-                questions.forEach((q, qIdx) => {
-                    q.dataset.chapterIdx = cIdx;
-                    q.dataset.chapterTitle = chapterTitle;
-                    q.dataset.origOrder = qIdx;
+            const nav = document.getElementById('pageNav');
+            const scopeSel = document.getElementById('scopeSelect');
+
+            quizData.forEach((chap, cIdx) => {
+                // 각 문항에 고유 ID 부여
+                chap.questions.forEach((q, qIdx) => {
+                    q.id = `${cIdx}-${qIdx}`;
+                    q.chapTitle = chap.title;
                 });
+
+                // 상단 탭 버튼 생성
+                const btn = document.createElement('button');
+                btn.className = 'nav-btn';
+                btn.textContent = chap.short;
+                btn.onclick = () => loadChapter(cIdx);
+                nav.appendChild(btn);
+
+                // 드롭다운 옵션 추가
+                const opt = document.createElement('option');
+                opt.value = String(cIdx);
+                opt.textContent = chap.title;
+                scopeSel.appendChild(opt);
             });
-            updatePaginationUI();
+
+            const randTab = document.createElement('button');
+            randTab.className = 'nav-btn random-tab';
+            randTab.id = 'randomTabBtn';
+            randTab.textContent = '🎲 랜덤/복습 모드';
+            nav.appendChild(randTab);
+
+            updateReviewBtnUI();
+            loadChapter(0);
         });
 
-        // 피셔-예이츠 셔플 알고리즘
-        function shuffleArray(arr) {
+        function shuffle(arr) {
             const copy = [...arr];
             for (let i = copy.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -2203,211 +427,218 @@
             return copy;
         }
 
-        function updatePaginationUI() {
-            if (currentPage === 11) {
-                chapterPages.forEach(p => p.classList.remove('active'));
-                randomPage.classList.add('active');
-                navBtns.forEach(b => b.classList.remove('active'));
-                randomTabBtn.style.display = 'inline-block';
-                randomTabBtn.classList.add('active');
-                bottomPagination.style.display = 'none';
-            } else {
-                randomPage.classList.remove('active');
-                randomTabBtn.classList.remove('active');
-                chapterPages.forEach((page, index) => {
-                    page.classList.toggle('active', index === currentPage);
-                });
-                navBtns.forEach((btn, index) => {
-                    btn.classList.toggle('active', index === currentPage);
-                });
-                bottomPagination.style.display = 'flex';
-                prevBtn.disabled = (currentPage === 0);
-                nextBtn.disabled = (currentPage === chapterPages.length - 1);
-                pageIndicator.textContent = `${currentPage + 1} / ${chapterPages.length} 페이지`;
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function loadChapter(cIdx) {
+            isRandomMode = false;
+            currentChap = cIdx;
+            viewMode = 'list';
+            activeQuestions = [...quizData[cIdx].questions];
+            document.getElementById('chapterTitle').textContent = quizData[cIdx].title;
+            document.getElementById('restoreOrderBtn').style.display = 'inline-block';
+            renderQuestions(false);
+            updateNavUI();
         }
 
-        function goToPage(index) {
-            currentPage = index;
-            updatePaginationUI();
-        }
-
-        function openRandomPage() {
-            currentPage = 11;
-            updatePaginationUI();
-        }
-
-        function changePage(step) {
-            if (currentPage === 11) return;
-            const nextIndex = currentPage + step;
-            if (nextIndex >= 0 && nextIndex < chapterPages.length) {
-                currentPage = nextIndex;
-                updatePaginationUI();
-            }
-        }
-
-        // [기능 1] 현재 보고 있는 장 안에서 문제 순서 즉시 섞기
-        function shuffleCurrentChapter() {
-            if (currentPage >= 11) return;
-            const activePage = chapterPages[currentPage];
-            const questions = Array.from(activePage.querySelectorAll('.question'));
-            const shuffled = shuffleArray(questions);
-            shuffled.forEach(q => activePage.appendChild(q));
-        }
-
-        // 현재 장의 문제 순서를 원래 번호순으로 복구
-        function restoreCurrentChapterOrder() {
-            if (currentPage >= 11) return;
-            const activePage = chapterPages[currentPage];
-            const questions = Array.from(activePage.querySelectorAll('.question'));
-            questions.sort((a, b) => Number(a.dataset.origOrder) - Number(b.dataset.origOrder));
-            questions.forEach(q => activePage.appendChild(q));
-        }
-
-        // [기능 2] 빠른 실행: 현재 보고 있는 장 랜덤 출제
-        function quickRandomCurrentChapter() {
-            const targetChapter = (currentPage < 11) ? String(currentPage) : document.getElementById('randomScopeSelect').value;
-            document.getElementById('randomScopeSelect').value = targetChapter === 'all' ? '0' : targetChapter;
-            document.getElementById('randomCountSelect').value = 'all';
-            generateCustomRandomQuiz();
-        }
-
-        // [기능 3] 빠른 실행: 모든 문제(전 범위 1~11장) 랜덤 출제
-        function quickRandomAllChapters() {
-            document.getElementById('randomScopeSelect').value = 'all';
-            document.getElementById('randomCountSelect').value = 'all';
-            generateCustomRandomQuiz();
-        }
-
-        // 설정된 옵션으로 랜덤 모의고사 생성
-        function generateCustomRandomQuiz() {
-            const scope = document.getElementById('randomScopeSelect').value;
-            const countVal = document.getElementById('randomCountSelect').value;
-            currentViewMode = document.getElementById('randomViewModeSelect').value;
-
-            let pool = [];
-            let scopeTitle = '';
-
-            if (scope === 'all') {
-                chapterPages.forEach(page => {
-                    pool.push(...Array.from(page.querySelectorAll('.question')));
-                });
-                scopeTitle = '전 범위 (1장 ~ 11장 모든 문제)';
-            } else {
-                const cIdx = Number(scope);
-                const page = chapterPages[cIdx];
-                pool.push(...Array.from(page.querySelectorAll('.question')));
-                scopeTitle = page.querySelector('h2').textContent;
-            }
-
-            const shuffledPool = shuffleArray(pool);
-            const limit = (countVal === 'all') ? shuffledPool.length : Math.min(Number(countVal), shuffledPool.length);
-            const selectedQuestions = shuffledPool.slice(0, limit);
-
-            const container = document.getElementById('randomQuestionsContainer');
+        function renderQuestions(showBadge) {
+            const container = document.getElementById('questionsContainer');
             container.innerHTML = '';
 
-            selectedQuestions.forEach((origQ, idx) => {
-                const clone = origQ.cloneNode(true);
-                // 입력창 및 정답 표시 초기화
-                clone.querySelectorAll('input[type="text"]').forEach(inp => inp.value = '');
-                const ansDiv = clone.querySelector('.answer');
-                if (ansDiv) ansDiv.style.display = 'none';
-                const checkBtn = clone.querySelector('.check-btn');
-                if (checkBtn) checkBtn.textContent = '정답 확인';
+            activeQuestions.forEach((item, idx) => {
+                const isRev = reviewSet.has(item.id);
+                const div = document.createElement('div');
+                div.className = 'question' + (isRev ? ' in-review' : '');
+                div.dataset.qid = item.id;
 
-                // 출처 장 배지 및 랜덤 문제 번호 부여
-                const badge = document.createElement('div');
-                badge.className = 'q-badge';
-                badge.textContent = `랜덤 #${idx + 1} | 출처: ${origQ.dataset.chapterTitle}`;
-                clone.insertBefore(badge, clone.firstChild);
+                let html = '';
+                if (showBadge) {
+                    html += `<div class="q-badge">문제 #${idx + 1} | 출처: ${item.chapTitle}</div>`;
+                }
+                html += `<div class="q-text">${item.q}</div>`;
+                if (item.desc) {
+                    html += `<div class="diagram-desc"><strong>[그림 가이드]</strong> ${item.desc}</div>`;
+                }
+                if (item.bogi) {
+                    html += `<div class="box-bogi"><strong>[보기]</strong> ${item.bogi}</div>`;
+                }
+                if (item.subs) {
+                    html += `<div class="sub-grid">` + item.subs.map(s => `<div class="sub-item">${s}: <input type="text"></div>`).join('') + `</div>`;
+                } else {
+                    html += `<input type="text" placeholder="정답을 입력하세요">`;
+                }
+                html += `<button class="btn check-btn" onclick="toggleAns(this)">정답 확인</button>`;
+                html += `<button class="review-check-btn ${isRev ? 'active' : ''}" onclick="toggleReview('${item.id}', this)">${isRev ? '★ 복습 중' : '☆ 복습 담기'}</button>`;
+                html += `<div class="answer">정답: ${item.a}</div>`;
 
-                container.appendChild(clone);
+                div.innerHTML = html;
+                container.appendChild(div);
             });
 
-            document.getElementById('randomQuizTitle').textContent = `🎲 랜덤 출제: ${scopeTitle} (총 ${selectedQuestions.length}문항)`;
-
-            // 전체 정답 보기 버튼 상태 초기화
-            const allBtn = randomPage.querySelector('.page-all-btn');
+            const allBtn = document.getElementById('toggleAllAnsBtn');
             allBtn.dataset.showing = 'false';
             allBtn.textContent = '정답 모두 보기';
 
-            currentCardIndex = 0;
-            applyRandomViewMode();
-            openRandomPage();
+            cardIdx = 0;
+            updateCardView();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function reshuffleActiveRandomQuiz() {
-            generateCustomRandomQuiz();
-        }
-
-        function applyRandomViewMode() {
-            const container = document.getElementById('randomQuestionsContainer');
-            const items = Array.from(container.querySelectorAll('.question'));
-            const cardControls = document.getElementById('cardModeControls');
-
-            if (currentViewMode === 'card' && items.length > 0) {
-                cardControls.style.display = 'flex';
-                items.forEach((item, idx) => {
-                    item.style.display = (idx === currentCardIndex) ? 'block' : 'none';
-                });
-                document.getElementById('prevCardBtn').disabled = (currentCardIndex === 0);
-                document.getElementById('nextCardBtn').disabled = (currentCardIndex === items.length - 1);
-                document.getElementById('cardProgressIndicator').textContent = `${currentCardIndex + 1} / ${items.length} 문항`;
+        function updateCardView() {
+            const items = document.querySelectorAll('#questionsContainer .question');
+            const cardPag = document.getElementById('cardPagination');
+            if (viewMode === 'card' && items.length > 0) {
+                cardPag.style.display = 'flex';
+                items.forEach((el, i) => el.style.display = (i === cardIdx) ? 'block' : 'none');
+                document.getElementById('prevCardBtn').disabled = (cardIdx === 0);
+                document.getElementById('nextCardBtn').disabled = (cardIdx === items.length - 1);
+                document.getElementById('cardIndicator').textContent = `${cardIdx + 1} / ${items.length} 문항`;
             } else {
-                cardControls.style.display = 'none';
-                items.forEach(item => {
-                    item.style.display = 'block';
-                });
+                cardPag.style.display = 'none';
+                items.forEach(el => el.style.display = 'block');
             }
         }
 
         function moveCard(step) {
-            const items = document.querySelectorAll('#randomQuestionsContainer .question');
-            const nextIdx = currentCardIndex + step;
-            if (nextIdx >= 0 && nextIdx < items.length) {
-                currentCardIndex = nextIdx;
-                applyRandomViewMode();
+            const next = cardIdx + step;
+            if (next >= 0 && next < activeQuestions.length) {
+                cardIdx = next;
+                updateCardView();
             }
         }
 
-        function toggleAnswer(btn) {
-            const answerDiv = btn.nextElementSibling;
-            if (answerDiv.style.display === 'block') {
-                answerDiv.style.display = 'none';
-                btn.textContent = '정답 확인';
+        function updateNavUI() {
+            const navBtns = document.querySelectorAll('#pageNav .nav-btn:not(.random-tab)');
+            const randTab = document.getElementById('randomTabBtn');
+            const chapPag = document.getElementById('chapterPagination');
+
+            if (isRandomMode) {
+                navBtns.forEach(b => b.classList.remove('active'));
+                randTab.style.display = 'inline-block';
+                randTab.classList.add('active');
+                chapPag.style.display = 'none';
             } else {
-                answerDiv.style.display = 'block';
-                btn.textContent = '정답 숨기기';
+                randTab.classList.remove('active');
+                navBtns.forEach((b, i) => b.classList.toggle('active', i === currentChap));
+                chapPag.style.display = 'flex';
+                document.getElementById('prevChapBtn').disabled = (currentChap === 0);
+                document.getElementById('nextChapBtn').disabled = (currentChap === quizData.length - 1);
+                document.getElementById('chapIndicator').textContent = `${currentChap + 1} / ${quizData.length} 페이지`;
             }
         }
 
-        function getActivePageElement() {
-            return (currentPage === 11) ? randomPage : chapterPages[currentPage];
+        function changeChapter(step) {
+            const next = currentChap + step;
+            if (next >= 0 && next < quizData.length) loadChapter(next);
         }
 
-        function toggleCurrentPageAnswers(btn) {
-            const activePage = getActivePageElement();
-            const answers = activePage.querySelectorAll('.answer');
-            const checkBtns = activePage.querySelectorAll('.check-btn');
-            const isShowing = btn.dataset.showing === 'true';
-
-            answers.forEach(ans => {
-                ans.style.display = isShowing ? 'none' : 'block';
-            });
-            checkBtns.forEach(b => {
-                b.textContent = isShowing ? '정답 확인' : '정답 숨기기';
-            });
-
-            btn.dataset.showing = !isShowing;
-            btn.textContent = isShowing ? '정답 모두 보기' : '정답 모두 숨기기';
+        function shuffleCurrentView() {
+            activeQuestions = shuffle(activeQuestions);
+            renderQuestions(isRandomMode);
         }
 
-        function resetCurrentPage() {
-            const activePage = getActivePageElement();
-            const inputs = activePage.querySelectorAll('input[type="text"]');
-            inputs.forEach(input => input.value = '');
+        function restoreChapterOrder() {
+            if (!isRandomMode) loadChapter(currentChap);
+        }
+
+        function quickRandomCurrent() {
+            document.getElementById('scopeSelect').value = String(currentChap);
+            document.getElementById('countSelect').value = 'all';
+            runCustomRandom(true);
+        }
+
+        function quickRandomAll() {
+            document.getElementById('scopeSelect').value = 'all';
+            document.getElementById('countSelect').value = 'all';
+            runCustomRandom(true);
+        }
+
+        function startReviewMode(doShuffle) {
+            if (reviewSet.size === 0) {
+                alert('아직 복습 노트에 담긴 문제가 없습니다.\n문제 옆의 [☆ 복습 담기] 버튼을 먼저 눌러주세요!');
+                return;
+            }
+            document.getElementById('scopeSelect').value = 'review';
+            document.getElementById('countSelect').value = 'all';
+            runCustomRandom(doShuffle);
+        }
+
+        function runCustomRandom(doShuffle) {
+            const scope = document.getElementById('scopeSelect').value;
+            const countVal = document.getElementById('countSelect').value;
+            viewMode = document.getElementById('modeSelect').value;
+
+            let pool = [];
+            let title = '';
+
+            if (scope === 'review') {
+                quizData.forEach(c => c.questions.forEach(q => { if (reviewSet.has(q.id)) pool.push(q); }));
+                if (pool.length === 0) {
+                    alert('복습 노트에 담긴 문제가 없습니다!');
+                    return;
+                }
+                title = doShuffle ? '🔥 복습 문제 랜덤 출제' : '📌 복습 노트 모아보기';
+            } else if (scope === 'all') {
+                quizData.forEach(c => pool.push(...c.questions));
+                title = '🌍 전 범위 랜덤 출제';
+            } else {
+                const cIdx = Number(scope);
+                pool = [...quizData[cIdx].questions];
+                title = `🎲 ${quizData[cIdx].title} 랜덤 출제`;
+            }
+
+            if (doShuffle) pool = shuffle(pool);
+            const limit = (countVal === 'all') ? pool.length : Math.min(Number(countVal), pool.length);
+            activeQuestions = pool.slice(0, limit);
+
+            isRandomMode = true;
+            document.getElementById('chapterTitle').textContent = `${title} (총 ${activeQuestions.length}문항)`;
+            document.getElementById('restoreOrderBtn').style.display = 'none';
+            renderQuestions(true);
+            updateNavUI();
+        }
+
+        function toggleReview(qid, btn) {
+            if (reviewSet.has(qid)) reviewSet.delete(qid);
+            else reviewSet.add(qid);
+            localStorage.setItem(REVIEW_KEY, JSON.stringify([...reviewSet]));
+
+            const qDiv = btn.closest('.question');
+            const isRev = reviewSet.has(qid);
+            qDiv.classList.toggle('in-review', isRev);
+            btn.classList.toggle('active', isRev);
+            btn.textContent = isRev ? '★ 복습 중' : '☆ 복습 담기';
+            updateReviewBtnUI();
+        }
+
+        function updateReviewBtnUI() {
+            document.getElementById('reviewNoteBtn').textContent = `📌 복습 노트 (${reviewSet.size})`;
+        }
+
+        function clearReviews() {
+            if (reviewSet.size === 0) return;
+            if (!confirm(`복습 노트에 저장된 ${reviewSet.size}개의 문제를 모두 비우시겠습니까?`)) return;
+            reviewSet.clear();
+            localStorage.removeItem(REVIEW_KEY);
+            updateReviewBtnUI();
+            renderQuestions(isRandomMode);
+        }
+
+        function toggleAns(btn) {
+            const ans = btn.parentElement.querySelector('.answer');
+            const open = ans.style.display === 'block';
+            ans.style.display = open ? 'none' : 'block';
+            btn.textContent = open ? '정답 확인' : '정답 숨기기';
+        }
+
+        function toggleAllAnswers() {
+            const btn = document.getElementById('toggleAllAnsBtn');
+            const showing = btn.dataset.showing === 'true';
+            document.querySelectorAll('#questionsContainer .answer').forEach(a => a.style.display = showing ? 'none' : 'block');
+            document.querySelectorAll('#questionsContainer .check-btn').forEach(b => b.textContent = showing ? '정답 확인' : '정답 숨기기');
+            btn.dataset.showing = !showing;
+            btn.textContent = showing ? '정답 모두 보기' : '정답 모두 숨기기';
+        }
+
+        function clearInputs() {
+            document.querySelectorAll('#questionsContainer input[type="text"]').forEach(i => i.value = '');
         }
     </script>
 </body>
